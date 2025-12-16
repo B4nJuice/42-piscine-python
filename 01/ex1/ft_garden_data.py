@@ -1,0 +1,26 @@
+#! python3
+
+class Plant:
+    def __init__(self, name, age, height):
+        self.name = name
+        self.age = age
+        self.height = height
+
+    def print_plant(self):
+        name = self.name
+        age = self.age
+        height = self.height
+        print(f'{name}: {height}cm ,{age} day{(age > 0) * "s"} old')
+
+
+def ft_garden_data():
+    plant1 = Plant("Rose", 30, 25)
+    plant2 = Plant("Sunflower", 45, 80)
+    plant3 = Plant("Rose", 120, 15)
+    print('=== Garden Plant Registry ===')
+    plant1.print_plant()
+    plant2.print_plant()
+    plant3.print_plant()
+
+
+ft_garden_data()
