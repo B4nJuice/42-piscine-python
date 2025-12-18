@@ -1,6 +1,9 @@
 #! python3
 
 class Plant:
+    '''
+        Plant class is a class that contains all the informations about a Plant
+    '''
     def __init__(self, name, days_old, height, grow_speed, max_height) -> None:
         self.name = name
         self.days_old = days_old
@@ -10,6 +13,9 @@ class Plant:
         self.max_height = max_height
 
     def print_plant(self) -> None:
+        '''
+            print_plant() is a method that display informations about a plant
+        '''
         name = self.name
         age = self.days_old
         height = self.height
@@ -17,6 +23,10 @@ class Plant:
 
 
 def ft_plant_factory(plant_list):
+    '''
+        ft_plant_factory() is a factory for the class Plant, it creates plants
+        depending of attributes on the list on dict.
+    '''
     created_plants = []
     for plant in plant_list:
         name = plant["name"]

@@ -1,5 +1,9 @@
 def ft_garden_intro():
-    plant = "Rose"
+    '''
+        ft_garden_intro() display informations about yout garden
+        (specifycly a plant)
+    '''
+    plant = "rose".capitalize()
     height = 25
     age = 30
     print('=== Welcome to My Garden ===\n')
