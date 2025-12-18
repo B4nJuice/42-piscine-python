@@ -5,7 +5,7 @@ class Plant:
         Plant class is a class that contains all the informations about a Plant
     '''
     def __init__(self, name, days_old, height, grow_speed, max_height) -> None:
-        self.name = name
+        self.name = name.capitalize()
         self.days_old = days_old
         self.height = height
         self.starting_height = height

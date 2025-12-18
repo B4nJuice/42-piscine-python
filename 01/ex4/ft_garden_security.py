@@ -7,7 +7,7 @@ class SecurePlant:
         attributes
     '''
     def __init__(self, name, age, height, grow_speed, max_height) -> None:
-        self.name = name
+        self.name = name.capitalize()
         self.grow_speed = grow_speed
         self.max_height = max_height
         if self.set_age(age) is False:
