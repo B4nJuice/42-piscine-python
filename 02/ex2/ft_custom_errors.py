@@ -3,8 +3,7 @@ class GardenError(Exception):
         Base class for garden-related errors.
     '''
     def __init__(self, message="An undefined error occured"):
-        if message is not None:
-            super().__init__(message)
+        super().__init__(message)
 
 
 class PlantError(GardenError):
