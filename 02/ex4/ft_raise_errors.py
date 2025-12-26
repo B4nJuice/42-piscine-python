@@ -1,4 +1,12 @@
-class InvalidName(ValueError):
+class GardenError(ValueError):
+    '''
+        Class for garden relative errors.
+    '''
+    def __init__(self, message="An undefined GardenError occured."):
+        super().__init__(message)
+
+
+class InvalidName(GardenError):
     '''
         Exception raised for invalid plant names.
     '''
@@ -6,7 +14,7 @@ class InvalidName(ValueError):
         super().__init__(message)
 
 
-class WaterError(ValueError):
+class WaterError(GardenError):
     '''
         Exception raised for errors related to water level.
     '''
@@ -19,7 +27,7 @@ class WaterError(ValueError):
             super().__init__("An undetermined WaterError occured.")
 
 
-class SunlightError(ValueError):
+class SunlightError(GardenError):
     '''
         Exception raised for errors related to sunlight hours.
     '''
