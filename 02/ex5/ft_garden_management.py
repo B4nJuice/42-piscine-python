@@ -65,7 +65,7 @@ class Plant:
 
     def get_age(self):
         return (self.__age)
-    
+
     def set_water_level(self, water_level):
         if is_a_valid_int(water_level) is False:
             raise InvalidInt("water_level has to be a valid int")
@@ -74,6 +74,6 @@ class Plant:
         if water_level > 100:
             raise WaterError(f"water_level cannot be {water_level} (max 100)")
         self.__water_level = water_level
-    
+
     def get_water_level(self):
         return (self.__water_level)

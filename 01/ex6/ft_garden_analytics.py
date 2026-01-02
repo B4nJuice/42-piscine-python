@@ -1,4 +1,27 @@
 #! python3
+class GardenManager:
+    def __init__(self) -> 'GardenManager':
+        self.__garden_list = []
+
+    def create_garden(self, owner) -> 'Garden':
+        garden = Garden(owner)
+        self.__garden_list.append(garden)
+        return (garden)
+
+    def create_garden_network(self, garden_list) -> None:
+        for garden in garden_list:
+            self.__garden_list.append(garden)
+
+    def list_gardens(self):
+        i = 0
+        for garden in self.__garden_list:
+            print(f"[{i}] owner : {garden.get_owner()}", end=", ")
+            print(f"score : {garden.get_score()}")
+            i += 1
+
+    def get_garden(self, index) -> 'Garden':
+        return (self.__garden_list[index])
+
 
 class Garden:
     def __init__(self, owner) -> 'Garden':
@@ -6,8 +29,25 @@ class Garden:
         self.__plants = []
         self.__plants_num = 0
         self.__plants_type = {"Tree": 0, "Vegetable": 0, "Flower": 0}
+        self.__score = 0
 
-    def get_owner(self) -> str:
+    def __get_min(self) -> int:
+        min = self.__plants_type["Tree"]
+        if self.__plants_type["Vegetable"] < min:
+            min = self.__plants_type["Vegetable"]
+        if self.__plants_type["Flower"] < min:
+            min = self.__plants_type["Flower"]
+        return (min)
+
+    def get_score(self) -> int:
+        score = self.__plants_type["Tree"]
+        score += self.__plants_type["Vegetable"]
+        score += self.__plants_type["Flower"]
+        score += self.__get_min() * 5
+        score += self.__score
+        return (score)
+
+    def get_owner(self):
         return (self.__owner)
 
     def get_plants(self) -> 'list':
@@ -52,6 +92,7 @@ class Garden:
         print(f"Plant types: {flower} Flower,", end=' ')
         print(f"{tree} Tree,", end=' ')
         print(f"{vegetable} Vegetable")
+        print(f"Score : {self.get_score()}")
 
 
 class SecurePlant:
@@ -271,7 +312,13 @@ class Vegetable(SecurePlant):
                           harvest_season, nutritional_value))
 
 
-flower = Flower("test", 1, 10, 15, 80, "red")
-test_garden = Garden("test")
-test_garden.add_plant(flower, "Flower")
-test_garden.garden_report()
+garden_list = []
+garden_list.append(Garden("Bob"))
+garden_list.append(Garden("Alice"))
+gman = GardenManager()
+gman.create_garden_network(garden_list)
+print(gman.get_garden(0).get_owner())
+flower = Flower("flowerrr", 1, 10, 15, 80, "red")
+gman.get_garden(0).add_plant(flower, "Flower")
+gman.get_garden(0).garden_report()
+gman.list_gardens()
