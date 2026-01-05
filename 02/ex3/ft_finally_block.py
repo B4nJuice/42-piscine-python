@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 def water_plants(plant_list):
     '''
         water_plants is a function that waters a list of plants,

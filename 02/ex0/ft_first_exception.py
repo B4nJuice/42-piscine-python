@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 def check_temperature(temp_str):
     '''
         check_temperature is a function that check if it parameter, temp_str

@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 class GardenError(Exception):
     '''
         Base class for garden-related errors.

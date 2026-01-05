@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 def garden_operations():
     '''
         garden_opertations is a function that raise different errors

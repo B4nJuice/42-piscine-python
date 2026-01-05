@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 class GardenError(ValueError):
     '''
         Class for garden relative errors.
