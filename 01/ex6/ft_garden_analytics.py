@@ -3,14 +3,39 @@ class GardenManager:
     def __init__(self) -> 'GardenManager':
         self.__garden_list = []
 
+    class GardenStats:
+        def __init__(self, garden_list):
+            total_garden = 0
+            total_score = 0
+            total_plants = 0
+            total_flower = 0
+            total_tree = 0
+            total_vegetable = 0
+            for garden in garden_list:
+                total_garden += 1
+                total_score += garden.get_score()
+                total_plants += garden.get_plants_num()
+                total_flower += garden.get_plant_type("Flower")
+                total_tree += garden.get_plant_type("Tree")
+                total_vegetable += garden.get_plant_type("Vegetable")
+            print(f"Garden managed : {total_garden}")
+            print(f"Total score : {total_score}")
+            print(f"Total plants : {total_plants}")
+            print(f"\nTotal flower : {total_flower}")
+            print(f"Total tree : {total_tree}")
+            print(f"Total vegetable : {total_vegetable}")
+
     def create_garden(self, owner) -> 'Garden':
         garden = Garden(owner)
         self.__garden_list.append(garden)
         return (garden)
 
-    def create_garden_network(self, garden_list) -> None:
+    @classmethod
+    def create_garden_network(cls, garden_list) -> 'GardenManager':
+        manager = cls()
         for garden in garden_list:
-            self.__garden_list.append(garden)
+            manager.__garden_list.append(garden)
+        return manager
 
     def list_gardens(self):
         i = 0
@@ -22,6 +47,9 @@ class GardenManager:
     def get_garden(self, index) -> 'Garden':
         return (self.__garden_list[index])
 
+    def get_stats(self):
+        self.GardenStats(self.__garden_list)
+
 
 class Garden:
     def __init__(self, owner) -> 'Garden':
@@ -29,7 +57,6 @@ class Garden:
         self.__plants = []
         self.__plants_num = 0
         self.__plants_type = {"Tree": 0, "Vegetable": 0, "Flower": 0}
-        self.__score = 0
 
     def __get_min(self) -> int:
         min = self.__plants_type["Tree"]
@@ -44,7 +71,12 @@ class Garden:
         score += self.__plants_type["Vegetable"]
         score += self.__plants_type["Flower"]
         score += self.__get_min() * 5
-        score += self.__score
+        for plant in self.__plants:
+            level = plant["plant"].__class__.__bases__[0]
+            if level == FloweringPlant:
+                score += 1
+            elif level == PrizeFlower:
+                score += 3
         return (score)
 
     def get_owner(self):
@@ -55,6 +87,9 @@ class Garden:
 
     def get_plants_num(self) -> int:
         return (self.__plants_num)
+
+    def get_plant_type(self, type) -> int:
+        return (self.__plants_type[type])
 
     def add_plant_type(self, type) -> None:
         self.__plants_type[type] += 1
@@ -71,6 +106,24 @@ class Garden:
             print(f"Added {name} to {owner}'s garden.")
         else:
             print(f"{type} isn't an type.")
+
+    @staticmethod
+    def rebase(cls, *new_bases):
+        return type(cls.__name__, new_bases, dict(cls.__dict__))
+
+    def upgrade_plant(self, plant):
+        cur_cls = plant.__class__
+        if issubclass(cur_cls, SecurePlant):
+            plant.__class__ = self.rebase(cur_cls, FloweringPlant)
+            print(f"{plant.get_name()} has been upgraded !")
+        elif issubclass(cur_cls, FloweringPlant):
+            plant.__class__ = self.rebase(cur_cls, PrizeFlower)
+            print(f"{plant.get_name()} has been upgraded !")
+
+    def water_all(self):
+        print(f"\nWatering all {self.__owner}'s garden plants...")
+        for plant in self.__plants:
+            self.upgrade_plant(plant["plant"])
 
     def garden_report(self):
         owner = self.get_owner()
@@ -162,6 +215,36 @@ class SecurePlant:
         age = self.get_age()
         height = self.get_height()
         print(f'{name}: {height}cm, {age} day{(age > 0) * "s"} old')
+        print(self.__class__.__name__)
+
+    def get_level(self):
+        return (self.__class__.__bases__[0].__name__)
+
+
+class FloweringPlant(SecurePlant):
+    def __init__(self, name, age, height, grow_speed, max_height) -> None:
+        self.__name = name.capitalize()
+        self.__grow_speed = grow_speed
+        self.__max_height = max_height
+        if self.set_age(age) is False:
+            self.__age = 0
+        if self.set_height(height) is False:
+            self.__height = 0
+        self.__starting_height = self.get_height()
+        super().__init__(name, age, height, grow_speed, max_height)
+
+
+class PrizeFlower(FloweringPlant):
+    def __init__(self, name, age, height, grow_speed, max_height) -> None:
+        self.__name = name.capitalize()
+        self.__grow_speed = grow_speed
+        self.__max_height = max_height
+        if self.set_age(age) is False:
+            self.__age = 0
+        if self.set_height(height) is False:
+            self.__height = 0
+        self.__starting_height = self.get_height()
+        super().__init__(name, age, height, grow_speed, max_height)
 
 
 class Flower(SecurePlant):
@@ -206,8 +289,8 @@ class Flower(SecurePlant):
         age = self.get_age()
         height = self.get_height()
         color = self.get_color()
-        print(f'{name} (Flower): {height}cm, {age}', end=' ')
-        print(f'day{(age > 0) * "s"}, {color} color')
+        print(f'{name} (Flower {self.get_level()}): {height}cm, {age}', end='')
+        print(f' day{(age > 0) * "s"}, {color} color')
 
     def factory(self, name, age, height, grow_speed, max_height,
                 color) -> 'Flower':
@@ -253,7 +336,7 @@ class Tree(SecurePlant):
         age = self.get_age()
         height = self.get_height()
         trunk_diameter = self.get_trunk_diameter()
-        print(f'{name} (Tree): {height}cm, {age}', end=' ')
+        print(f'{name} (Tree {self.get_level()}): {height}cm, {age}', end=' ')
         print(f'day{(age > 0) * "s"}, {trunk_diameter}cm diameter')
 
     def factory(self, name, age, height, grow_speed, max_height,
@@ -298,7 +381,8 @@ class Vegetable(SecurePlant):
         age = self.get_age()
         height = self.get_height()
         harvest_season = self.get_harvest_seson()
-        print(f'{name} (Vegetable): {height}cm, {age}', end=' ')
+        print(f'{name} (Vegetable {self.get_level()}):\
+              {height}cm, {age}', end=' ')
         print(f'day{(age > 0) * "s"}, {harvest_season} harvest,', end=' ')
         print(f'rich in {self.get_nutritional_value()}')
 
@@ -315,10 +399,10 @@ class Vegetable(SecurePlant):
 garden_list = []
 garden_list.append(Garden("Bob"))
 garden_list.append(Garden("Alice"))
-gman = GardenManager()
-gman.create_garden_network(garden_list)
-print(gman.get_garden(0).get_owner())
+gman = GardenManager().create_garden_network(garden_list)
 flower = Flower("flowerrr", 1, 10, 15, 80, "red")
 gman.get_garden(0).add_plant(flower, "Flower")
+gman.get_garden(0).water_all()
 gman.get_garden(0).garden_report()
 gman.list_gardens()
+gman.get_stats()
