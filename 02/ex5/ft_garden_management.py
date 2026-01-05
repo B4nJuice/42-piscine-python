@@ -41,10 +41,13 @@ def is_a_valid_int(n) -> bool:
     return True
 
 
-class Garden:
+class GardenManager:
     '''Represent a garden owned by a person and containing plants.'''
-    def __init__(self, owner) -> 'Garden':
+    def __init__(self, owner):
         '''Initialize a Garden for `owner` with empty plant lists.'''
+        if owner is None or owner == "":
+            raise GardenError("Garden Manager name error :\
+owner name cannot be empty.")
         self.__owner = owner.capitalize()
         self.__plants = []
         self.__plants_num = 0
@@ -92,12 +95,25 @@ class Garden:
             try:
                 water_level = plant.get_water_level()
                 plant.set_water_level(water_level + 1)
-                print(f"{plant_name} has been watered, water level :\
+                print(f"{plant_name} has been watered, water level : \
 {water_level + 1}")
             except GardenError as e:
                 print(f"{plant_name} : {e}")
             finally:
-                print(f"water_all() executed on {plant_name} ")
+                print(f"water_all() executed on {plant_name} \n")
+
+    def check_all(self):
+        '''
+            checks all plant inside the garden
+        '''
+        for plant in self.get_plants():
+            plant_name = plant.get_name()
+            try:
+                print(plant.check_plant_health())
+            except GardenError as e:
+                print(f"{plant_name} : {e}")
+            finally:
+                print(f"check_all() executed on {plant_name} \n")
 
 
 class Plant:
@@ -106,7 +122,7 @@ class Plant:
         self.set_height(height)
         self.set_age(age)
         self.set_min_max_water(min_water, max_water)
-        self.set_water_level(self.get_max_water())
+        self.set_water_level(self.get_min_water())
 
     def set_name(self, name):
         '''
@@ -154,8 +170,8 @@ a positive value.")
         '''
             change the plant height
         '''
-        if is_a_valid_int(height) is False:
-            raise InvalidInt("height has to be a valid int.")
+        if is_a_valid_int(height) is False or height < 0:
+            raise InvalidInt("height has to be a valid positive int.")
         self.__height = height
 
     def get_height(self):
@@ -168,8 +184,8 @@ a positive value.")
         '''
             change the plant age
         '''
-        if is_a_valid_int(age) is False:
-            raise InvalidInt("age has to be a valid int.")
+        if is_a_valid_int(age) is False or age < 0:
+            raise InvalidInt("age has to be a valid positive int.")
         self.__age = age
 
     def get_age(self):
@@ -187,10 +203,10 @@ a positive value.")
         min_water = self.get_min_water()
         max_water = self.get_max_water()
         if water_level < min_water:
-            raise WaterError(f"water_level cannot be {water_level} (min\
+            raise WaterError(f"water_level cannot be {water_level} (min \
 {min_water})")
         if water_level > max_water:
-            raise WaterError(f"water_level cannot be {water_level} (max\
+            raise WaterError(f"water_level cannot be {water_level} (max \
 {max_water})")
         self.__water_level = water_level
 
@@ -227,3 +243,66 @@ water level : {water_level}')
             raise WaterError(f"Watter Error : {plant_name}' water_level has to\
 be between {min_water} and {max_water}, here {water_level}")
         return f"{plant_name} is perfect !"
+
+
+plant_list = [
+    {
+        "name": "Rose",
+        "height": 10,
+        "age": 10,
+        "min_water": 5,
+        "max_water": 100
+    },
+    {
+        "name": "Nasturtium",
+        "height": 10,
+        "age": 10,
+        "min_water": 40,
+        "max_water": 41
+    },
+    {
+        "name": "Tulip",
+        "height": -10,
+        "age": 10,
+        "min_water": 5,
+        "max_water": 100
+    },
+    {
+        "name": "Lys",
+        "height": 10,
+        "age": -10,
+        "min_water": 5,
+        "max_water": 100
+    },
+    {
+        "name": "Poppy",
+        "height": 10,
+        "age": 10,
+        "min_water": 105,
+        "max_water": 100
+    },
+]
+
+
+def tester():
+    gam = GardenManager("Bob")
+    for plant in plant_list:
+        try:
+            name = plant["name"]
+            height = plant["height"]
+            age = plant["age"]
+            min_water = plant["min_water"]
+            max_water = plant["max_water"]
+            plant_instance = Plant(name, height, age, min_water, max_water)
+            print(f"\nPlant {name} created.")
+            gam.add_plant(plant_instance)
+        except GardenError as e:
+            print(f"Error on plant adding {e}")
+        finally:
+            print(f"GardenManager.add_plant() executed on {name}\n")
+    gam.water_all()
+    gam.check_all()
+    gam.water_all()
+
+
+tester()
