@@ -279,7 +279,7 @@ class Flower(SecurePlant):
             change_color() method change the flower's color
         '''
         self.__color = color
-        print(f'{self.get_name()} changed it color to {self.get_color}!')
+        print(f'{self.get_name()} changed it color to {self.get_color()}!')
 
     def print_flower(self) -> None:
         '''
@@ -381,8 +381,8 @@ class Vegetable(SecurePlant):
         age = self.get_age()
         height = self.get_height()
         harvest_season = self.get_harvest_seson()
-        print(f'{name} (Vegetable {self.get_level()}):\
-              {height}cm, {age}', end=' ')
+        print(f'{name} (Vegetable {self.get_level()}): \
+{height}cm, {age}', end=' ')
         print(f'day{(age > 0) * "s"}, {harvest_season} harvest,', end=' ')
         print(f'rich in {self.get_nutritional_value()}')
 
@@ -396,13 +396,52 @@ class Vegetable(SecurePlant):
                           harvest_season, nutritional_value))
 
 
-garden_list = []
-garden_list.append(Garden("Bob"))
-garden_list.append(Garden("Alice"))
-gman = GardenManager().create_garden_network(garden_list)
-flower = Flower("flowerrr", 1, 10, 15, 80, "red")
-gman.get_garden(0).add_plant(flower, "Flower")
-gman.get_garden(0).water_all()
-gman.get_garden(0).garden_report()
-gman.list_gardens()
-gman.get_stats()
+# def tester():
+#     garden_list = [Garden("Bob"), Garden("Alice")]
+#     gman = GardenManager().create_garden_network(garden_list)
+
+#     f1 = Flower("rose", 1, 10, 5, 50, "red")
+#     t1 = Tree("oak", 5, 100, 2, 500, 30, 100)
+#     v1 = Vegetable("carrot", 0, 5, 10, 30, "Summer", "vitamin A")
+
+#     bob = gman.get_garden(0)
+#     alice = gman.get_garden(1)
+#     bob.add_plant(f1, "Flower")
+#     bob.add_plant(t1, "Tree")
+#     alice.add_plant(v1, "Vegetable")
+
+#     bob.garden_report()
+#     alice.garden_report()
+
+#     bob.water_all()
+#     alice.water_all()
+
+#     bob.garden_report()
+#     alice.garden_report()
+#     print()
+#     gman.get_stats()
+
+#     print("\n-- Plant actions --")
+#     for garden in (bob, alice):
+#         for entry in garden.get_plants():
+#             p = entry["plant"]
+#             name = p.get_name()
+#             print(f"\nActions for {name} (class: {p.__class__.__name__})")
+#             if hasattr(p, 'bloom'):
+#                 try:
+#                     p.bloom()
+#                 except Exception as e:
+#                     print("bloom() raised:", e)
+#             if hasattr(p, 'change_color'):
+#                 try:
+#                     p.change_color('blue')
+#                 except Exception as e:
+#                     print("change_color() raised:", e)
+#             if hasattr(p, 'produce_sade'):
+#                 try:
+#                     p.produce_sade()
+#                 except Exception as e:
+#                     print("produce_sade() raised:", e)
+
+
+# tester()
