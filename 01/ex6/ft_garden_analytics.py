@@ -1,10 +1,18 @@
 #! python3
 class GardenManager:
+    '''Manager for multiple gardens and convenience helpers.'''
     def __init__(self) -> 'GardenManager':
+        '''Create an empty GardenManager.'''
         self.__garden_list = []
 
     class GardenStats:
+        '''Small report class that computes aggregate stats for gardens.'''
         def __init__(self, garden_list):
+            '''Compute and print aggregate statistics for a list of gardens.
+
+            Args:
+                garden_list: iterable of Garden instances to aggregate.
+            '''
             total_garden = 0
             total_score = 0
             total_plants = 0
@@ -26,18 +34,24 @@ class GardenManager:
             print(f"Total vegetable : {total_vegetable}")
 
     def create_garden(self, owner) -> 'Garden':
+        '''Create a Garden for `owner`, register it and return it.'''
         garden = Garden(owner)
         self.__garden_list.append(garden)
         return (garden)
 
     @classmethod
     def create_garden_network(cls, garden_list) -> 'GardenManager':
+        '''Create a GardenManager pre-populated with `garden_list`.'''
         manager = cls()
         for garden in garden_list:
             manager.__garden_list.append(garden)
         return manager
 
     def list_gardens(self):
+        '''Print a short listing (index, owner, score).
+
+        Prints one line per managed garden.
+        '''
         i = 0
         for garden in self.__garden_list:
             print(f"[{i}] owner : {garden.get_owner()}", end=", ")
@@ -45,20 +59,28 @@ class GardenManager:
             i += 1
 
     def get_garden(self, index) -> 'Garden':
+        '''Return the Garden at `index` in the manager's list.'''
         return (self.__garden_list[index])
 
     def get_stats(self):
+        '''Compute and print aggregate statistics for all managed gardens.'''
         self.GardenStats(self.__garden_list)
 
 
 class Garden:
+    '''Represent a garden owned by a person and containing plants.'''
     def __init__(self, owner) -> 'Garden':
+        '''Initialize a Garden for `owner` with empty plant lists.'''
         self.__owner = owner.capitalize()
         self.__plants = []
         self.__plants_num = 0
         self.__plants_type = {"Tree": 0, "Vegetable": 0, "Flower": 0}
 
     def __get_min(self) -> int:
+        '''Return the minimum count among plant types.
+
+        Checks Tree, Vegetable and Flower and returns the smallest value.
+        '''
         min = self.__plants_type["Tree"]
         if self.__plants_type["Vegetable"] < min:
             min = self.__plants_type["Vegetable"]
@@ -67,6 +89,11 @@ class Garden:
         return (min)
 
     def get_score(self) -> int:
+        '''Compute and return the garden score.
+
+        The score is based on counts of plant types and bonuses for
+        flowering/prize upgrades.
+        '''
         score = self.__plants_type["Tree"]
         score += self.__plants_type["Vegetable"]
         score += self.__plants_type["Flower"]
@@ -80,21 +107,31 @@ class Garden:
         return (score)
 
     def get_owner(self):
+        '''Return the capitalized owner name.'''
         return (self.__owner)
 
     def get_plants(self) -> 'list':
+        '''Return the internal list of plant entries (dicts).'''
         return (self.__plants)
 
     def get_plants_num(self) -> int:
+        '''Return the number of plants added to this garden.'''
         return (self.__plants_num)
 
     def get_plant_type(self, type) -> int:
+        '''Return the count of plants for a given type.'''
         return (self.__plants_type[type])
 
     def add_plant_type(self, type) -> None:
+        '''Increment the internal counter for a given plant type.'''
         self.__plants_type[type] += 1
 
     def add_plant(self, plant, type) -> None:
+        '''Add a plant instance to the garden under `type`.
+
+        `plant` should be an instance of SecurePlant (or subclass).
+        `type` is a string among: Tree, Vegetable, Flower.
+        '''
         available_types = ["Tree", "Vegetable", "Flower"]
         type = type.capitalize()
         if type in available_types:
@@ -109,9 +146,18 @@ class Garden:
 
     @staticmethod
     def rebase(cls, *new_bases):
+        '''Create a new class object that reuses `cls`'s dict.
+
+        The returned type has the same name and dict but different bases.
+        '''
         return type(cls.__name__, new_bases, dict(cls.__dict__))
 
     def upgrade_plant(self, plant):
+        '''Upgrade a plant's inheritance to FloweringPlant then PrizeFlower.
+
+        The function changes the instance's class so it gains behaviors from
+        the target base classes. Existing instance attributes are preserved.
+        '''
         cur_cls = plant.__class__
         if issubclass(cur_cls, SecurePlant):
             plant.__class__ = self.rebase(cur_cls, FloweringPlant)
@@ -121,11 +167,16 @@ class Garden:
             print(f"{plant.get_name()} has been upgraded !")
 
     def water_all(self):
+        '''Call `upgrade_plant` for every plant in the garden.
+
+        This simulates watering which may upgrade plants' inheritance.
+        '''
         print(f"\nWatering all {self.__owner}'s garden plants...")
         for plant in self.__plants:
             self.upgrade_plant(plant["plant"])
 
     def garden_report(self):
+        '''Print a detailed report about plants and counts in this garden.'''
         owner = self.get_owner()
         print(f"\n=== {owner}'s Garden Report ===\n")
         print("Plants in garden:")
@@ -218,12 +269,18 @@ class SecurePlant:
         print(self.__class__.__name__)
 
     def get_level(self):
+        '''Return the immediate base class name used to determine "level".'''
         return (self.__class__.__bases__[0].__name__)
 
 
 class FloweringPlant(SecurePlant):
+    '''Marker class that represents a plant that can flower.
+
+    This class inherits from SecurePlant and may be used as a base when
+    upgrading plain SecurePlant instances.
+    '''
     def __init__(self, name, age, height, grow_speed, max_height) -> None:
-        self.__name = name.capitalize()
+        '''Initialize a FloweringPlant; delegates to SecurePlant init.'''
         self.__grow_speed = grow_speed
         self.__max_height = max_height
         if self.set_age(age) is False:
@@ -235,7 +292,12 @@ class FloweringPlant(SecurePlant):
 
 
 class PrizeFlower(FloweringPlant):
+    '''Marker class that represents a prize-level flowering plant.
+
+    Instances of this class are considered upgraded beyond FloweringPlant.
+    '''
     def __init__(self, name, age, height, grow_speed, max_height) -> None:
+        '''Initialize a PrizeFlower; delegates to FloweringPlant init.'''
         self.__name = name.capitalize()
         self.__grow_speed = grow_speed
         self.__max_height = max_height
