@@ -64,6 +64,12 @@ def create_position(x, y, z):
     return (coord)
 
 
+def get_xyz_coord(coord):
+    x, y, z = coord
+
+    return (f"x={x}, y={y}, z={z}")
+
+
 def ft_coordinate_system():
     coords = []
 
@@ -82,6 +88,11 @@ def ft_coordinate_system():
 
         for i, coord in enumerate(coords):
             if i != n_coords - 1:
+                player_pos = get_xyz_coord(coord)
+                next_player_pos = get_xyz_coord(coords[i + 1])
+
+                print(f"\nPlayer position: {player_pos}")
+                print(f"Player move to {next_player_pos}")
                 calculate_distance(coord, coords[i + 1])
     except Exception as e:
         print(e)
