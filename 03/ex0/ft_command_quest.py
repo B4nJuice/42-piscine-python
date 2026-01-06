@@ -4,6 +4,9 @@ import sys
 
 
 def ft_command_quest():
+    '''
+    Displays the program name and its arguments.
+    '''
     argv = sys.argv
     argc = len(argv)
     program_name = argv[0]

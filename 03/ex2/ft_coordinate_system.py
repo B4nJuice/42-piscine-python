@@ -5,6 +5,9 @@ import math
 
 
 def calculate_distance(coord1, coord2):
+    '''
+    Calculates and prints the Euclidean distance between two 3D coordinates.
+    '''
     x1, y1, z1 = coord1
     x2, y2, z2 = coord2
 
@@ -50,6 +53,9 @@ def parse_coordinates():
 
 
 def create_position(x, y, z):
+    '''
+    Creates a 3D coordinate position from x, y, and z values.
+    '''
     coord = []
 
     coord.append(x)
@@ -65,12 +71,20 @@ def create_position(x, y, z):
 
 
 def get_xyz_coord(coord):
+    '''
+        Returns a formatted string representing the x, y, and z values of a 3D
+        coordinate by unpacking the tuple.
+    '''
     x, y, z = coord
 
     return (f"x={x}, y={y}, z={z}")
 
 
 def ft_coordinate_system():
+    '''
+    Demonstrates the creation, parsing, and distance calculation of 3D
+    coordinates.
+    '''
     coords = []
 
     starting_pos = create_position(10, 20, 5)
