@@ -6,7 +6,23 @@ class Item:
                          quantity=quantity)
 
     def set_quantity(self, quantity):
+        if quantity < 0:
+            quantity = 0
         self.item.update({"quantity": quantity})
+
+    def add_quantity(self, quantity):
+        cur_quantity = self.get_quantity()
+        new_quantity = cur_quantity + quantity
+        if new_quantity < 0:
+            new_quantity = 0
+
+        self.set_quantity(new_quantity)
+
+        quantity_added = new_quantity-cur_quantity
+        return (quantity_added)
+
+    def remove_quantity(self, quantity):
+        return (-self.add_quantity(-quantity))
 
     def get_name(self):
         return (self.item["name"])
@@ -22,6 +38,15 @@ class Item:
 
     def get_quantity(self):
         return (self.item["quantity"])
+
+    def copy_item(self):
+        name = self.get_name()
+        type = self.get_type()
+        rarity = self.get_rarity()
+        value = self.get_value()
+
+        new_item = Item(name, type, rarity, value, 1)
+        return new_item
 
 
 class Player:
@@ -76,7 +101,7 @@ class Player:
 
     def print_inventory(self):
         player_name = self.get_name()
-        print(f"=== {player_name}'s Inventory ===")
+        print(f"\n=== {player_name}'s Inventory ===")
 
         items = self.get_items()
         item_count = 0
@@ -107,15 +132,46 @@ class Player:
             print(f"{key}({categories[key]}),", end=" ")
         print()
 
+    def get_item_in_inventory(self, name):
+        items = self.get_items()
 
-test = Player("Test")
+        for item in items:
+            item_name = item.get_name()
+            if item_name == name:
+                return (item)
+        return None
+
+    def give(self, player, item_name, quantity):
+        item = self.get_item_in_inventory(item_name)
+
+        print(f"\n=== Transaction: {self.get_name()} gives {player.get_name()}\
+ {quantity} {item_name} ===")
+
+        if item is not None:
+            quantity = item.remove_quantity(quantity)
+            item_copy = item.copy_item()
+            item_copy.set_quantity(quantity)
+            player.add_item(item_copy)
+            print("Transaction successful!")
+        else:
+            print("Transaction failed.")
+
+
+alice = Player("Alice")
+bob = Player("Bob")
 
 sword = Item("Sword", "weapon", "rare", 500, 1)
 potion = Item("Potion", "consumable", "common", 50, 5)
 shield = Item("Shield", "armor", "uncommon", 200, 1)
 
-test.add_item(sword)
-test.add_item(potion)
-test.add_item(shield)
+alice.add_item(sword)
+alice.add_item(potion)
+alice.add_item(shield)
 
-test.print_inventory()
+alice.print_inventory()
+bob.print_inventory()
+
+alice.give(bob, "Potion", 2)
+
+alice.print_inventory()
+bob.print_inventory()
