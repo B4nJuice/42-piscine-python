@@ -106,7 +106,16 @@ class Player:
         return (self.__inventory)
 
     def get_score(self):
+        '''
+            return the player score
+        '''
         return (self.__score)
+
+    def set_score(self, score):
+        '''
+            set the player score
+        '''
+        self.__score = score
 
     def get_achievements(self):
         return (self.__achievements)
@@ -262,7 +271,93 @@ def is_rare_achievement(achievement, achievement_player, player_list):
 
 def ft_analytics_dashboard():
     bob = Player("Bob")
-    bob.print_inventory()
+    alice = Player("Alice")
+
+    bob.set_score(10)
+    alice.set_score(500)
+
+    player_list = [bob, alice]
+
+    print("\n=== List Comprehension Examples ===\n")
+
+    player_score_list = []
+
+    for player in player_list:
+        player_score = player.get_score()
+        player_score_list.append(player_score)
+
+    print(f"Players score: {player_score_list}")
+
+    player_name_list = []
+
+    for player in player_list:
+        player_name = player.get_name()
+        player_name_list.append(player_name)
+
+    print(f"Active players: {player_name_list}")
+
+    sword = Item("Sword", "weapon", "rare", 500, 1)
+    potion = Item("Potion", "consumable", "common", 50, 5)
+    shield = Item("Shield", "armor", "uncommon", 200, 1)
+
+    bob.add_item(sword)
+    bob.add_item(potion)
+    bob.add_item(shield)
+
+    print("\n=== Dict Comprehension Examples ===\n")
+
+    bob_items = bob.get_items()
+
+    print("Raw items in inventory:\n")
+
+    for item in bob_items:
+        print(item.item)
+
+    scores_dict = {}
+
+    for player in player_list:
+        player_name = player.get_name()
+        player_score = player.get_score()
+        scores_dict.update({player_name: player_score})
+
+    print("\nPlayers score:\n")
+    print(scores_dict)
+
+    print("\n=== Set Comprehension Examples ===\n")
+
+    player_set = set([])
+
+    for player in player_list:
+        player_name = player.get_name()
+        player_set.add(player_name)
+
+    print(f"Unique players: {player_set}")
+
+    bob.add_achievement("first_kill")
+    bob.add_achievement("enemy_slayer")
+
+    alice.add_achievement("first_kill")
+    alice.add_achievement("perfectionist")
+
+    achievement_set = set([])
+
+    for player in player_list:
+        player_achievements = player.get_achievements()
+        for achievement in player_achievements:
+            achievement_set.add(achievement)
+
+    print(f"Unique achievements: {achievement_set}")
+
+    print("\n=== Combined analysis ===\n")
+
+    total_players = len(player_list)
+    total_unique_achievements = len(achievement_set)
+    total_score = sum(player_score_list)
+    average_score = total_score / total_players
+
+    print(f"Total players: {total_players}")
+    print(f"Total unique achievements: {total_unique_achievements}")
+    print(f"Total players: {average_score}")
 
 
 if __name__ == "__main__":
