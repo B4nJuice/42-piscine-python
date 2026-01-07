@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 
 def game_event_generator(n):
+    '''
+    Generate n game events.
+    '''
     players = ["Bob", "Alice", "Charlie"]
     levels = [1, 5, 8, 12]
     actions = ["killed monster", "found treasure", "leveled up", "died"]
@@ -19,6 +22,9 @@ def game_event_generator(n):
 
 
 def fibonacci(n):
+    '''
+    Generates the first n Fibonacci numbers.
+    '''
     a = 0
     b = 1
 
@@ -28,6 +34,9 @@ def fibonacci(n):
 
 
 def prime_number(n):
+    '''
+    Generates the first n prime numbers.
+    '''
     nb = 2
 
     for _ in range(n):
@@ -43,6 +52,9 @@ def prime_number(n):
 
 
 def ft_data_stream():
+    '''
+    Main function to process game data stream and demonstrate generators.
+    '''
     print("\n=== Game Data Stream Processor ===\n")
 
     n_game_event = 1000
