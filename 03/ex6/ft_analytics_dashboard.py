@@ -85,11 +85,13 @@ class Player:
     '''
     Represents a player with a name and an inventory of items.
     '''
-    def __init__(self, name):
+    def __init__(self, name, score=0, achievements=[]):
         self.__name = name
         self.__inventory = {
             "items": []
         }
+        self.__score = score
+        self.__achievements = set(achievements)
 
     def get_name(self):
         '''
@@ -102,6 +104,12 @@ class Player:
         Returns the inventory of the player.
         '''
         return (self.__inventory)
+
+    def get_score(self):
+        return (self.__score)
+
+    def get_achievements(self):
+        return (self.__achievements)
 
     def get_items(self):
         '''
@@ -138,19 +146,6 @@ class Player:
             total_value += value*quantity
 
         return (total_value)
-
-    def get_item_count(self):
-        '''
-        Returns the total number of items in the player's inventory.
-        '''
-        items = self.get_items()
-        item_count = 0
-
-        for item in items:
-            quantity = item.get_quantity()
-            item_count += quantity
-
-        return (item_count)
 
     def print_item(self, item):
         '''
@@ -236,84 +231,39 @@ class Player:
         else:
             print("Transaction failed.")
 
-    def get_items_name_by_rarity(self, rarity):
+    def add_achievement(self, achievement):
+        achievements = self.get_achievements()
+
+        if achievement not in achievements:
+            achievements.add(achievement)
+
+    def print_achievements(self):
         '''
-        Returns a list of items in the player's inventory that match
-        the specified rarity.
+            print_achievements is a method that prints the player's name
+            and their achievements.
         '''
-        items = self.get_items()
-
-        matched_items = []
-
-        for item in items:
-            item_rarity = item.get_rarity()
-            if item_rarity == rarity:
-                item_name = item.get_name()
-                matched_items.append(item_name)
-
-        return (matched_items)
+        name = self.name
+        achievements = self.get_achievements()
+        print(f"Player {name} achievements : {achievements}")
 
 
-def ft_inventory_system():
+def is_rare_achievement(achievement, achievement_player, player_list):
     '''
-    Demonstrates the inventory system with two players and some items.
+        is_rare_achievement is a function that checks if an achievement
+        is rare (i.e., obtained by only one player) among a list of players.
     '''
-    alice = Player("Alice")
+    for player in player_list:
+        if player != achievement_player:
+            player_achievements = player.get_achievements()
+            if achievement in player_achievements:
+                return False
+        return True
+
+
+def ft_analytics_dashboard():
     bob = Player("Bob")
-
-    sword = Item("Sword", "weapon", "rare", 500, 1)
-    potion = Item("Potion", "consumable", "common", 50, 5)
-    shield = Item("Shield", "armor", "uncommon", 200, 1)
-
-    alice.add_item(sword)
-    alice.add_item(potion)
-    alice.add_item(shield)
-
-    alice.print_inventory()
     bob.print_inventory()
-
-    alice.give(bob, "Potion", 2)
-
-    alice.print_inventory()
-    bob.print_inventory()
-
-    print("\n=== Inventory Analytics ===\n")
-
-    mv_player = None
-    mi_player = None
-
-    mv_player_value = None
-    mi_player_count = None
-
-    for player in (alice, bob):
-        inventory_value = player.get_inventory_value()
-        item_count = player.get_item_count()
-
-        if mv_player is None or mv_player_value < inventory_value:
-            mv_player = player
-            mv_player_value = inventory_value
-
-        if mi_player is None or mi_player_count < item_count:
-            mi_player = player
-            mi_player_count = item_count
-
-    mv_player_name = mv_player.get_name()
-
-    print(f"Most valuable player: {mv_player_name} ({mv_player_value} gold)")
-
-    mi_player_name = mv_player.get_name()
-
-    print(f"Most items: {mi_player_name} ({mi_player_count} items)")
-
-    rare_items = []
-
-    for player in (alice, bob):
-        player_rare_items = player.get_items_name_by_rarity("rare")
-        for item in player_rare_items:
-            rare_items.append(item)
-
-    print(f"Rare items: {','.join(rare_items)}")
 
 
 if __name__ == "__main__":
-    ft_inventory_system()
+    ft_analytics_dashboard()
