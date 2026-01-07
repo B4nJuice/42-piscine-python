@@ -1,4 +1,4 @@
-#! python3
+#!/usr/bin/env python3
 
 class SecurePlant:
     '''
@@ -88,49 +88,49 @@ def ft_plant_factory(plant_list):
     return (created_plants)
 
 
-plant_list = [
-    {
-        "name": "Rose",
-        "age": -10,
-        "height": -25,
-        "grow_speed": 2,
-        "max_height": 80
-    },
-    {
-        "name": "Oak",
-        "age": 365,
-        "height": 200,
-        "grow_speed": 0,
-        "max_height": 1500
-    },
-    {
-        "name": "Cactus",
-        "age": 90,
-        "height": 5,
-        "grow_speed": 1,
-        "max_height": 30
-    },
-    {
-        "name": "Sunflower",
-        "age": 45,
-        "height": 80,
-        "grow_speed": 2,
-        "max_height": 100
-    },
-    {
-        "name": "Fern",
-        "age": 120,
-        "height": 15,
-        "grow_speed": 1,
-        "max_height": 50
-    }
-]
-
-
 def ft_garden_security():
     '''
         ft_garden_security() init the garden an display is status
     '''
+
+    plant_list = [
+        {
+            "name": "Rose",
+            "age": -10,
+            "height": -25,
+            "grow_speed": 2,
+            "max_height": 80
+        },
+        {
+            "name": "Oak",
+            "age": 365,
+            "height": 200,
+            "grow_speed": 0,
+            "max_height": 1500
+        },
+        {
+            "name": "Cactus",
+            "age": 90,
+            "height": 5,
+            "grow_speed": 1,
+            "max_height": 30
+        },
+        {
+            "name": "Sunflower",
+            "age": 45,
+            "height": 80,
+            "grow_speed": 2,
+            "max_height": 100
+        },
+        {
+            "name": "Fern",
+            "age": 120,
+            "height": 15,
+            "grow_speed": 1,
+            "max_height": 50
+        }
+    ]
+
     created_plants = ft_plant_factory(plant_list)
     print("\n=== Garden Security System ===\n")
     created_plants[0].set_age(10)
@@ -143,4 +143,5 @@ def ft_garden_security():
         plant.print_plant()
 
 
-ft_garden_security()
+if __name__ == "__main__":
+    ft_garden_security()

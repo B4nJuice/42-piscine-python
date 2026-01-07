@@ -1,4 +1,4 @@
-#! python3
+#!/usr/bin/env python3
 
 class Plant:
     '''
@@ -61,4 +61,5 @@ def create_garden():
     print(f'Growth this week: +{plant1.get_info()}cm')
 
 
-create_garden()
+if __name__ == "__main__":
+    create_garden()

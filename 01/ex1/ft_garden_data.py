@@ -1,4 +1,4 @@
-#! python3
+#!/usr/bin/env python3
 
 class Plant:
     '''
@@ -33,4 +33,5 @@ def ft_garden_data():
     plant3.print_plant()
 
 
-ft_garden_data()
+if __name__ == "__main__":
+    ft_garden_data()

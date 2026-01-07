@@ -1,4 +1,4 @@
-#! python3
+#!/usr/bin/env python3
 
 class SecurePlant:
     '''
@@ -250,4 +250,5 @@ def ft_plant_types():
     spinach.print_vegetable()
 
 
-ft_plant_types()
+if __name__ == "__main__":
+    ft_plant_types()

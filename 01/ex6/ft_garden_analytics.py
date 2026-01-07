@@ -1,4 +1,4 @@
-#! python3
+#!/usr/bin/env python3
 class GardenManager:
     '''Manager for multiple gardens and convenience helpers.'''
     def __init__(self) -> 'GardenManager':
@@ -458,52 +458,57 @@ class Vegetable(SecurePlant):
                           harvest_season, nutritional_value))
 
 
-# def tester():
-#     garden_list = [Garden("Bob"), Garden("Alice")]
-#     gman = GardenManager().create_garden_network(garden_list)
+def tester():
+    '''
+        tester() is a function that test the garden manager with gardens and
+        plants
+    '''
+    garden_list = [Garden("Bob"), Garden("Alice")]
+    gman = GardenManager().create_garden_network(garden_list)
 
-#     f1 = Flower("rose", 1, 10, 5, 50, "red")
-#     t1 = Tree("oak", 5, 100, 2, 500, 30, 100)
-#     v1 = Vegetable("carrot", 0, 5, 10, 30, "Summer", "vitamin A")
+    f1 = Flower("rose", 1, 10, 5, 50, "red")
+    t1 = Tree("oak", 5, 100, 2, 500, 30, 100)
+    v1 = Vegetable("carrot", 0, 5, 10, 30, "Summer", "vitamin A")
 
-#     bob = gman.get_garden(0)
-#     alice = gman.get_garden(1)
-#     bob.add_plant(f1, "Flower")
-#     bob.add_plant(t1, "Tree")
-#     alice.add_plant(v1, "Vegetable")
+    bob = gman.get_garden(0)
+    alice = gman.get_garden(1)
+    bob.add_plant(f1, "Flower")
+    bob.add_plant(t1, "Tree")
+    alice.add_plant(v1, "Vegetable")
 
-#     bob.garden_report()
-#     alice.garden_report()
+    bob.garden_report()
+    alice.garden_report()
 
-#     bob.water_all()
-#     alice.water_all()
+    bob.water_all()
+    alice.water_all()
 
-#     bob.garden_report()
-#     alice.garden_report()
-#     print()
-#     gman.get_stats()
+    bob.garden_report()
+    alice.garden_report()
+    print()
+    gman.get_stats()
 
-#     print("\n-- Plant actions --")
-#     for garden in (bob, alice):
-#         for entry in garden.get_plants():
-#             p = entry["plant"]
-#             name = p.get_name()
-#             print(f"\nActions for {name} (class: {p.__class__.__name__})")
-#             if hasattr(p, 'bloom'):
-#                 try:
-#                     p.bloom()
-#                 except Exception as e:
-#                     print("bloom() raised:", e)
-#             if hasattr(p, 'change_color'):
-#                 try:
-#                     p.change_color('blue')
-#                 except Exception as e:
-#                     print("change_color() raised:", e)
-#             if hasattr(p, 'produce_sade'):
-#                 try:
-#                     p.produce_sade()
-#                 except Exception as e:
-#                     print("produce_sade() raised:", e)
+    print("\n-- Plant actions --")
+    for garden in (bob, alice):
+        for entry in garden.get_plants():
+            p = entry["plant"]
+            name = p.get_name()
+            print(f"\nActions for {name} (class: {p.__class__.__name__})")
+            if hasattr(p, 'bloom'):
+                try:
+                    p.bloom()
+                except Exception as e:
+                    print("bloom() raised:", e)
+            if hasattr(p, 'change_color'):
+                try:
+                    p.change_color('blue')
+                except Exception as e:
+                    print("change_color() raised:", e)
+            if hasattr(p, 'produce_sade'):
+                try:
+                    p.produce_sade()
+                except Exception as e:
+                    print("produce_sade() raised:", e)
 
 
-# tester()
+if __name__ == "__main__":
+    tester()
