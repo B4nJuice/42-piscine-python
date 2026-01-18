@@ -69,4 +69,4 @@ def test_custom_errors():
         get_plant_status(0, "rose")
     except GardenError as e:
         print(f"Caught a garden error : {e}")
-    print("\nAll custome error types work correctly!")
+    print("\nAll custom error types work correctly!")

@@ -16,9 +16,9 @@ def water_plants(plant_list):
         print("Closing watering system (cleanup)")
 
 
-def test_waterubg_system():
+def test_watering_system():
     ''''
-        test_waterubg_system is a function that tests the watering system
+        test_watering_system is a function that tests the watering system
         with and without errors, ensuring cleanup always happens.
     '''
     print("=== Garden Watering System ===")

@@ -90,30 +90,30 @@ owner name cannot be empty.")
         '''
             water all plant inside the garden
         '''
-        for plant in self.get_plants():
-            plant_name = plant.get_name()
-            try:
+        try:
+            for plant in self.get_plants():
+                plant_name = plant.get_name()
                 water_level = plant.get_water_level()
                 plant.set_water_level(water_level + 1)
                 print(f"{plant_name} has been watered, water level : \
 {water_level + 1}")
-            except GardenError as e:
-                print(f"{plant_name} : {e}")
-            finally:
-                print(f"water_all() executed on {plant_name} \n")
+        except GardenError as e:
+            print(f"Error : {plant_name} : {e}")
+        finally:
+            print("Closing watering system (cleanup)\n")
 
     def check_all(self):
         '''
             checks all plant inside the garden
         '''
-        for plant in self.get_plants():
-            plant_name = plant.get_name()
-            try:
+        try:
+            for plant in self.get_plants():
+                plant_name = plant.get_name()
                 print(plant.check_plant_health())
-            except GardenError as e:
-                print(f"{plant_name} : {e}")
-            finally:
-                print(f"check_all() executed on {plant_name} \n")
+        except GardenError as e:
+            print(f"Error : {plant_name} : {e}")
+        finally:
+            print("Closing checking system (cleanup)\n")
 
 
 class Plant:
@@ -245,46 +245,45 @@ be between {min_water} and {max_water}, here {water_level}")
         return f"{plant_name} is perfect !"
 
 
-plant_list = [
-    {
-        "name": "Rose",
-        "height": 10,
-        "age": 10,
-        "min_water": 5,
-        "max_water": 100
-    },
-    {
-        "name": "Nasturtium",
-        "height": 10,
-        "age": 10,
-        "min_water": 40,
-        "max_water": 41
-    },
-    {
-        "name": "Tulip",
-        "height": -10,
-        "age": 10,
-        "min_water": 5,
-        "max_water": 100
-    },
-    {
-        "name": "Lys",
-        "height": 10,
-        "age": -10,
-        "min_water": 5,
-        "max_water": 100
-    },
-    {
-        "name": "Poppy",
-        "height": 10,
-        "age": 10,
-        "min_water": 105,
-        "max_water": 100
-    },
-]
+def test_garden_manager():
+    plant_list = [
+        {
+            "name": "Rose",
+            "height": 10,
+            "age": 10,
+            "min_water": 5,
+            "max_water": 100
+        },
+        {
+            "name": "Nasturtium",
+            "height": 10,
+            "age": 10,
+            "min_water": 40,
+            "max_water": 41
+        },
+        {
+            "name": "Tulip",
+            "height": -10,
+            "age": 10,
+            "min_water": 5,
+            "max_water": 100
+        },
+        {
+            "name": "Lys",
+            "height": 10,
+            "age": -10,
+            "min_water": 5,
+            "max_water": 100
+        },
+        {
+            "name": "Poppy",
+            "height": 10,
+            "age": 10,
+            "min_water": 105,
+            "max_water": 100
+        },
+    ]
 
-
-def tester():
     gam = GardenManager("Bob")
     for plant in plant_list:
         try:
@@ -303,6 +302,3 @@ def tester():
     gam.water_all()
     gam.check_all()
     gam.water_all()
-
-
-tester()
