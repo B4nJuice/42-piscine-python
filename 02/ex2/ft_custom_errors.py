@@ -4,7 +4,7 @@ class GardenError(Exception):
     '''
         Base class for garden-related errors.
     '''
-    def __init__(self, message="An undefined error occured"):
+    def __init__(self, message: str = "An undefined error occured") -> None:
         super().__init__(message)
 
 
@@ -12,7 +12,7 @@ class PlantError(GardenError):
     '''
         Exception raised for errors related to plant.
     '''
-    def __init__(self, plant):
+    def __init__(self, plant: str) -> None:
         super().__init__(f"The {plant} is wilting!")
 
 
@@ -20,11 +20,11 @@ class WaterError(GardenError):
     '''
         Exception raised for errors related to water.
     '''
-    def __init__(self, message="Not enough water in the tank!"):
+    def __init__(self, message: str = "Not enough water in the tank!") -> None:
         super().__init__(message)
 
 
-def take_water_from_tank(amount):
+def take_water_from_tank(amount: int) -> None:
     '''
         take_water_from_tank is a function that simulates taking water
         from a water tank. If the requested amount exceeds the available
@@ -36,7 +36,7 @@ def take_water_from_tank(amount):
         amount -= 100
 
 
-def get_plant_status(health, plant):
+def get_plant_status(health: int, plant: str) -> None:
     '''
         get_plant_status is a function that checks the health of a plant.
         If the health is less than or equal to 0, it raises a PlantError.
@@ -45,7 +45,7 @@ def get_plant_status(health, plant):
         raise PlantError(plant)
 
 
-def test_custom_errors():
+def test_custom_errors() -> None:
     '''
         test_custom_errors is a function that tests custom garden errors.
     '''

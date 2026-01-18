@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-def garden_operations():
+def garden_operations() -> None:
     '''
         garden_opertations is a function that raise different errors
     '''
@@ -11,7 +11,7 @@ def garden_operations():
     open("not_a_file", 'r')
 
 
-def test_error_types():
+def test_error_types() -> None:
     '''
         test_error_types is a function that tests different error types
         and handles them appropriately.

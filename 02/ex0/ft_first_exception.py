@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-def check_temperature(temp_str):
+def check_temperature(temp_str: str) -> None:
     '''
         check_temperature is a function that check if it parameter, temp_str
         can be converted to an int and if the resulting int is within an
@@ -23,7 +23,7 @@ def check_temperature(temp_str):
         print(f"Error: '{temp_str}' is not a valid number")
 
 
-def test_temperature_input():
+def test_temperature_input() -> None:
     '''
         test_temperature_input is a function that tests the check_temperature
         function with various inputs to ensure it handles exceptions properly.

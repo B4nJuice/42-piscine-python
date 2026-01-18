@@ -4,7 +4,8 @@ class GardenError(ValueError):
     '''
         Class for garden relative errors.
     '''
-    def __init__(self, message="An undefined GardenError occured."):
+    def __init__(self,
+                 message: str = "An undefined GardenError occured.") -> None:
         super().__init__(message)
 
 
@@ -12,7 +13,7 @@ class InvalidName(GardenError):
     '''
         Exception raised for invalid plant names.
     '''
-    def __init__(self, message="plant_name cannot be empty."):
+    def __init__(self, message: str = "plant_name cannot be empty.") -> None:
         super().__init__(message)
 
 
@@ -20,7 +21,7 @@ class WaterError(GardenError):
     '''
         Exception raised for errors related to water level.
     '''
-    def __init__(self, w_level):
+    def __init__(self, w_level: int) -> None:
         if w_level > 10:
             super().__init__(f"water_level {w_level} is too high (max 10).")
         elif w_level < 1:
@@ -33,7 +34,7 @@ class SunlightError(GardenError):
     '''
         Exception raised for errors related to sunlight hours.
     '''
-    def __init__(self, s_hours):
+    def __init__(self, s_hours: int) -> None:
         if s_hours > 10:
             super().__init__(f"sunlight_hours {s_hours} is too high (max 12).")
         elif s_hours < 2:
@@ -42,7 +43,8 @@ class SunlightError(GardenError):
             super().__init__("An undetermined SunlightError occured.")
 
 
-def check_plant_health(plant_name, water_level, sunlight_hours):
+def check_plant_health(plant_name: str, water_level: int,
+                       sunlight_hours: int) -> str:
     '''
         check_plant_health is a function that checks the health of a plant
         based on its name, water level, and sunlight hours. It raises
@@ -57,7 +59,7 @@ def check_plant_health(plant_name, water_level, sunlight_hours):
     return f"{plant_name} is perfect !"
 
 
-def test_plant_checks():
+def test_plant_checks() -> None:
     '''
         test_plant_checks is a function that tests the
         check_plant_health function and raises appropriate errors.

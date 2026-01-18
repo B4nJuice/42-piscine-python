@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-def water_plants(plant_list):
+def water_plants(plant_list: list[str]) -> None:
     '''
         water_plants is a function that waters a list of plants,
         handling errors and ensuring cleanup with a finally block.
@@ -16,7 +16,7 @@ def water_plants(plant_list):
         print("Closing watering system (cleanup)")
 
 
-def test_watering_system():
+def test_watering_system() -> None:
     ''''
         test_watering_system is a function that tests the watering system
         with and without errors, ensuring cleanup always happens.

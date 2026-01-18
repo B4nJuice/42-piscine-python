@@ -117,14 +117,15 @@ owner name cannot be empty.")
 
 
 class Plant:
-    def __init__(self, name, height, age, min_water, max_water):
+    def __init__(self, name: str, height: int, age: int, min_water: int,
+                 max_water: int) -> None:
         self.set_name(name)
         self.set_height(height)
         self.set_age(age)
         self.set_min_max_water(min_water, max_water)
         self.set_water_level(self.get_min_water())
 
-    def set_name(self, name):
+    def set_name(self, name: str) -> None:
         '''
             change the plant name
         '''
@@ -132,7 +133,7 @@ class Plant:
             raise InvalidName
         self.__name = name.capitalize()
 
-    def set_min_max_water(self, min_water, max_water):
+    def set_min_max_water(self, min_water: int, max_water: int) -> None:
         '''
             change the min and max water level
         '''
@@ -148,25 +149,25 @@ a positive value.")
         self.__min_water = min_water
         self.__max_water = max_water
 
-    def get_min_water(self):
+    def get_min_water(self) -> int:
         '''
             return the min water level
         '''
         return (self.__min_water)
 
-    def get_max_water(self):
+    def get_max_water(self) -> int:
         '''
             return the max water level
         '''
         return (self.__max_water)
 
-    def get_name(self):
+    def get_name(self) -> str:
         '''
             return the plant name
         '''
         return (self.__name)
 
-    def set_height(self, height):
+    def set_height(self, height: int) -> None:
         '''
             change the plant height
         '''
@@ -174,13 +175,13 @@ a positive value.")
             raise InvalidInt("height has to be a valid positive int.")
         self.__height = height
 
-    def get_height(self):
+    def get_height(self) -> int:
         '''
             return the plant height
         '''
         return (self.__height)
 
-    def set_age(self, age):
+    def set_age(self, age: int) -> None:
         '''
             change the plant age
         '''
@@ -188,13 +189,13 @@ a positive value.")
             raise InvalidInt("age has to be a valid positive int.")
         self.__age = age
 
-    def get_age(self):
+    def get_age(self) -> int:
         '''
             return the plant age
         '''
         return (self.__age)
 
-    def set_water_level(self, water_level):
+    def set_water_level(self, water_level: int) -> None:
         '''
             change the plant water level
         '''
@@ -210,7 +211,7 @@ a positive value.")
 {max_water})")
         self.__water_level = water_level
 
-    def get_water_level(self):
+    def get_water_level(self) -> int:
         '''
             return the plant water level
         '''
@@ -227,7 +228,7 @@ a positive value.")
         print(f'{name}: {height}cm, {age} day{(age > 0) * "s"} old,\
 water level : {water_level}')
 
-    def check_plant_health(self):
+    def check_plant_health(self) -> str:
         '''
             check_plant_health is a function that checks the health of a plant
             based on its name, water level, and sunlight hours. It raises
@@ -245,7 +246,7 @@ be between {min_water} and {max_water}, here {water_level}")
         return f"{plant_name} is perfect !"
 
 
-def test_garden_manager():
+def test_garden_manager() -> None:
     plant_list = [
         {
             "name": "Rose",
