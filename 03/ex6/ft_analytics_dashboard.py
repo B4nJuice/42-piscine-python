@@ -4,19 +4,24 @@ class Item:
     '''
     Represents an item with a name, type, rarity, value, and quantity.
     '''
-    def __init__(self, name, type, rarity, value, quantity):
+    def __init__(self,
+                 name: str,
+                 type: str,
+                 rarity: str,
+                 value: int,
+                 quantity: int) -> None:
         self.item = dict(name=name, type=type, rarity=rarity, value=value,
                          quantity=quantity)
 
-    def set_quantity(self, quantity):
+    def set_quantity(self, quantity: int) -> None:
         '''
-        Sets the quantity of the item. If quantity is negative, sets it to 0.
+        sets the quantity of the item. If quantity is negative, sets it to 0.
         '''
         if quantity < 0:
             quantity = 0
         self.item.update({"quantity": quantity})
 
-    def add_quantity(self, quantity):
+    def add_quantity(self, quantity: int) -> int:
         '''
         Adds the specified quantity to the current quantity of the item.
         If the resulting quantity is negative, sets it to 0.
@@ -31,44 +36,44 @@ class Item:
         quantity_added = new_quantity-cur_quantity
         return (quantity_added)
 
-    def remove_quantity(self, quantity):
+    def remove_quantity(self, quantity: int) -> int:
         '''
         Removes the specified quantity from the current quantity of the item.
         If the resulting quantity is negative, sets it to 0.
         '''
         return (-self.add_quantity(-quantity))
 
-    def get_name(self):
+    def get_name(self) -> str:
         '''
         Returns the name of the item.
         '''
-        return (self.item["name"])
+        return (self.item.get("name"))
 
-    def get_type(self):
+    def get_type(self) -> str:
         '''
         Returns the type of the item.
         '''
-        return (self.item["type"])
+        return (self.item.get("type"))
 
-    def get_rarity(self):
+    def get_rarity(self) -> str:
         '''
         Returns the rarity of the item.
         '''
-        return (self.item["rarity"])
+        return (self.item.get("rarity"))
 
-    def get_value(self):
+    def get_value(self) -> int:
         '''
         Returns the value of the item.
         '''
-        return (self.item["value"])
+        return (self.item.get("value"))
 
-    def get_quantity(self):
+    def get_quantity(self) -> int:
         '''
         Returns the quantity of the item.
         '''
-        return (self.item["quantity"])
+        return (self.item.get("quantity"))
 
-    def copy_item(self):
+    def copy_item(self) -> "Item":
         '''
         Returns a copy of the item with quantity set to 1.
         '''
@@ -85,7 +90,10 @@ class Player:
     '''
     Represents a player with a name and an inventory of items.
     '''
-    def __init__(self, name, score=0, achievements=[]):
+    def __init__(self,
+                 name: str,
+                 score: int = 0,
+                 achievements: list[str] = []) -> None:
         self.__name = name
         self.__inventory = {
             "items": []
@@ -93,41 +101,42 @@ class Player:
         self.__score = score
         self.__achievements = set(achievements)
 
-    def get_name(self):
+    def get_name(self) -> str:
         '''
         Returns the name of the player.
         '''
         return (self.__name)
 
-    def get_inventory(self):
+    def get_inventory(self) -> dict:
         '''
         Returns the inventory of the player.
         '''
         return (self.__inventory)
 
-    def get_score(self):
+    def get_score(self) -> int:
         '''
             return the player score
         '''
         return (self.__score)
 
-    def set_score(self, score):
+    def set_score(self, score: int) -> None:
         '''
             set the player score
         '''
         self.__score = score
 
-    def get_achievements(self):
+    def get_achievements(self) -> set[str]:
         return (self.__achievements)
 
-    def get_items(self):
+    def get_items(self) -> list[Item]:
         '''
         Returns the list of items in the player's inventory.
         '''
         inventory = self.get_inventory()
-        return (inventory["items"])
+        # use .get to avoid KeyError if structure changes
+        return (inventory.get("items", []))
 
-    def add_item(self, item):
+    def add_item(self, item: Item) -> None:
         '''
         Adds an item to the player's inventory. If the item already exists,
         updates the quantity.
@@ -136,13 +145,14 @@ class Player:
 
         for inventory_item in items:
             if inventory_item.get_name() == item.get_name():
-                new_quantiy = item.get_quantity()+inventory_item.get_quantity()
-                item.set_quantity(new_quantiy)
+                new_quantity = item.get_quantity() + \
+                    inventory_item.get_quantity()
+                item.set_quantity(new_quantity)
                 return
 
         items.append(item)
 
-    def get_inventory_value(self):
+    def get_inventory_value(self) -> int:
         '''
         Returns the total value of all items in the player's inventory.
         '''
@@ -156,7 +166,7 @@ class Player:
 
         return (total_value)
 
-    def print_item(self, item):
+    def print_item(self, item: Item) -> None:
         '''
         Prints the details of a single item.
         '''
@@ -170,7 +180,7 @@ class Player:
         print(f"{name} ({type}, {rarity}): {quantity}x @ {value} gold each\
  = {total_value} gold.")
 
-    def print_inventory(self):
+    def print_inventory(self) -> None:
         '''
         Prints the details of all items in the player's inventory.
         '''
@@ -180,7 +190,7 @@ class Player:
         items = self.get_items()
         item_count = 0
 
-        categories = {}
+        categories: dict[str, int] = {}
         categories_keys = categories.keys()
 
         for item in items:
@@ -188,9 +198,7 @@ class Player:
             item_count += quantity
 
             type = item.get_type()
-            type_count = 0
-            if type in categories_keys:
-                type_count = categories[type]
+            type_count = categories.get(type, 0)
             type_count += quantity
             categories.update({type: type_count})
 
@@ -203,10 +211,10 @@ class Player:
 
         print("Categories:", end=" ")
         for key in categories_keys:
-            print(f"{key}({categories[key]}),", end=" ")
+            print(f"{key}({categories.get(key)}),", end=" ")
         print()
 
-    def get_item_in_inventory(self, name):
+    def get_item_in_inventory(self, name: str) -> Item:
         '''
         Returns the item with the specified name from the player's inventory.
         If the item is not found, returns None.
@@ -219,7 +227,7 @@ class Player:
                 return (item)
         return None
 
-    def give(self, player, item_name, quantity):
+    def give(self, player: "Player", item_name: str, quantity: int) -> None:
         '''
         Gives the specified quantity of the item with the specified name to
         another player. If the item is not found in the inventory, or if the
@@ -240,36 +248,23 @@ class Player:
         else:
             print("Transaction failed.")
 
-    def add_achievement(self, achievement):
+    def add_achievement(self, achievement: str) -> None:
         achievements = self.get_achievements()
 
         if achievement not in achievements:
             achievements.add(achievement)
 
-    def print_achievements(self):
+    def print_achievements(self) -> None:
         '''
             print_achievements is a method that prints the player's name
             and their achievements.
         '''
-        name = self.name
+        name = self.get_name()
         achievements = self.get_achievements()
         print(f"Player {name} achievements : {achievements}")
 
 
-def is_rare_achievement(achievement, achievement_player, player_list):
-    '''
-        is_rare_achievement is a function that checks if an achievement
-        is rare (i.e., obtained by only one player) among a list of players.
-    '''
-    for player in player_list:
-        if player != achievement_player:
-            player_achievements = player.get_achievements()
-            if achievement in player_achievements:
-                return False
-        return True
-
-
-def ft_analytics_dashboard():
+def ft_analytics_dashboard() -> None:
     bob = Player("Bob")
     alice = Player("Alice")
 
@@ -278,7 +273,7 @@ def ft_analytics_dashboard():
 
     player_list = [bob, alice]
 
-    print("\n=== List Comprehension Examples ===\n")
+    print("\n=== list Comprehension Examples ===\n")
 
     player_score_list = []
 
@@ -304,7 +299,7 @@ def ft_analytics_dashboard():
     bob.add_item(potion)
     bob.add_item(shield)
 
-    print("\n=== Dict Comprehension Examples ===\n")
+    print("\n=== dict Comprehension Examples ===\n")
 
     bob_items = bob.get_items()
 
@@ -313,7 +308,7 @@ def ft_analytics_dashboard():
     for item in bob_items:
         print(item.item)
 
-    scores_dict = {}
+    scores_dict: dict[str, int] = {}
 
     for player in player_list:
         player_name = player.get_name()
@@ -323,7 +318,7 @@ def ft_analytics_dashboard():
     print("\nPlayers score:\n")
     print(scores_dict)
 
-    print("\n=== Set Comprehension Examples ===\n")
+    print("\n=== set Comprehension Examples ===\n")
 
     player_set = set([])
 

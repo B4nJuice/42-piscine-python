@@ -4,11 +4,16 @@ class Item:
     '''
     Represents an item with a name, type, rarity, value, and quantity.
     '''
-    def __init__(self, name, type, rarity, value, quantity):
+    def __init__(self,
+                 name: str,
+                 type: str,
+                 rarity: str,
+                 value: int,
+                 quantity: int) -> None:
         self.item = dict(name=name, type=type, rarity=rarity, value=value,
                          quantity=quantity)
 
-    def set_quantity(self, quantity):
+    def set_quantity(self, quantity: int) -> None:
         '''
         Sets the quantity of the item. If quantity is negative, sets it to 0.
         '''
@@ -16,7 +21,7 @@ class Item:
             quantity = 0
         self.item.update({"quantity": quantity})
 
-    def add_quantity(self, quantity):
+    def add_quantity(self, quantity: int) -> int:
         '''
         Adds the specified quantity to the current quantity of the item.
         If the resulting quantity is negative, sets it to 0.
@@ -31,44 +36,44 @@ class Item:
         quantity_added = new_quantity - cur_quantity
         return quantity_added
 
-    def remove_quantity(self, quantity):
+    def remove_quantity(self, quantity: int) -> int:
         '''
         Removes the specified quantity from the current quantity of the item.
         If the resulting quantity is negative, sets it to 0.
         '''
         return -self.add_quantity(-quantity)
 
-    def get_name(self):
+    def get_name(self) -> str:
         '''
         Returns the name of the item.
         '''
         return self.item.get("name")
 
-    def get_type(self):
+    def get_type(self) -> str:
         '''
         Returns the type of the item.
         '''
         return self.item.get("type")
 
-    def get_rarity(self):
+    def get_rarity(self) -> str:
         '''
         Returns the rarity of the item.
         '''
         return self.item.get("rarity")
 
-    def get_value(self):
+    def get_value(self) -> int:
         '''
         Returns the value of the item.
         '''
         return self.item.get("value")
 
-    def get_quantity(self):
+    def get_quantity(self) -> int:
         '''
         Returns the quantity of the item.
         '''
         return self.item.get("quantity")
 
-    def copy_item(self):
+    def copy_item(self) -> None:
         '''
         Returns a copy of the item with quantity set to 1.
         '''
@@ -85,32 +90,32 @@ class Player:
     '''
     Represents a player with a name and an inventory of items.
     '''
-    def __init__(self, name):
+    def __init__(self, name: str) -> int:
         self.__name = name
         self.__inventory = {
             "items": []
         }
 
-    def get_name(self):
+    def get_name(self) -> str:
         '''
         Returns the name of the player.
         '''
         return self.__name
 
-    def get_inventory(self):
+    def get_inventory(self) -> dict:
         '''
         Returns the inventory of the player.
         '''
         return self.__inventory
 
-    def get_items(self):
+    def get_items(self) -> list[Item]:
         '''
         Returns the list of items in the player's inventory.
         '''
         inventory = self.get_inventory()
         return inventory.get("items")
 
-    def add_item(self, item):
+    def add_item(self, item: Item) -> None:
         '''
         Adds an item to the player's inventory. If the item already exists,
         updates the quantity.
@@ -123,10 +128,9 @@ class Player:
                     + inventory_item.get_quantity()
                 item.set_quantity(new_quantity)
                 return
-
         items.append(item)
 
-    def get_inventory_value(self):
+    def get_inventory_value(self) -> int:
         '''
         Returns the total value of all items in the player's inventory.
         '''
@@ -140,7 +144,7 @@ class Player:
 
         return total_value
 
-    def get_item_count(self):
+    def get_item_count(self) -> int:
         '''
         Returns the total number of items in the player's inventory.
         '''
@@ -153,7 +157,8 @@ class Player:
 
         return item_count
 
-    def print_item(self, item):
+    @staticmethod
+    def print_item(item: Item) -> None:
         '''
         Prints the details of a single item.
         '''
@@ -167,7 +172,7 @@ class Player:
         print(f"{name} ({type}, {rarity}): {quantity}x @ {value} gold each\
  = {total_value} gold.")
 
-    def print_inventory(self):
+    def print_inventory(self) -> None:
         '''
         Prints the details of all items in the player's inventory.
         '''
@@ -201,7 +206,7 @@ class Player:
             print(f"{key}({categories.get(key)}),", end=" ")
         print()
 
-    def get_item_in_inventory(self, name):
+    def get_item_in_inventory(self, name: str) -> Item | None:
         '''
         Returns the item with the specified name from the player's inventory.
         If the item is not found, returns None.
@@ -214,7 +219,7 @@ class Player:
                 return item
         return None
 
-    def give(self, player, item_name, quantity):
+    def give(self, player: 'Player', item_name: str, quantity: int) -> None:
         '''
         Gives the specified quantity of the item with the specified name to
         another player.
@@ -233,7 +238,7 @@ class Player:
         else:
             print("Transaction failed.")
 
-    def get_items_name_by_rarity(self, rarity):
+    def get_items_name_by_rarity(self, rarity: str) -> list[Item]:
         '''
         Returns a list of items in the player's inventory that match
         the specified rarity.
@@ -273,7 +278,7 @@ class Player:
         return (searched_item.get_name(), searched_item.get_quantity())
 
 
-def ft_inventory_system():
+def ft_inventory_system() -> None:
     '''
     Demonstrates the inventory system with two players and some items.
     '''
@@ -347,8 +352,8 @@ def ft_inventory_system():
     for item in bob_items:
         item_keys = item.item.keys()
         item_values = item.item.values()
-        print(f"Dictionnary keys: {item_keys}")
-        print(f"Dictionnary values: {item_values}")
+        print(f"Dictionary keys: {item_keys}")
+        print(f"Dictionary values: {item_values}")
 
     print(f"Sample lookup : - 'Potion' in inventory : \
 {bob.get_item_in_inventory('Potion') is not None}")
