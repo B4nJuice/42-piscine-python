@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-def game_event_generator(n):
+def game_event_generator(n: int) -> tuple[int, str, int, str]:
     '''
     Generate n game events.
     '''
@@ -21,7 +21,7 @@ def game_event_generator(n):
         )
 
 
-def fibonacci(n):
+def fibonacci(n: int) -> int:
     '''
     Generates the first n Fibonacci numbers.
     '''
@@ -33,7 +33,7 @@ def fibonacci(n):
         a, b = b, b + a
 
 
-def prime_number(n):
+def prime_number(n: int) -> int:
     '''
     Generates the first n prime numbers.
     '''
@@ -51,7 +51,7 @@ def prime_number(n):
             nb += 1
 
 
-def ft_data_stream():
+def ft_data_stream() -> None:
     '''
     Main function to process game data stream and demonstrate generators.
     '''
