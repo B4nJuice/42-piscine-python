@@ -5,7 +5,7 @@ class Player:
         self.name = name
         self.achievements = set(achievements)
 
-    def print_achievements(self):
+    def print_achievements(self) -> None:
         '''
             print_achievements is a method that prints the player's name
             and their achievements.
@@ -15,7 +15,7 @@ class Player:
         print(f"Player {name} achievements : {achievements}")
 
     @staticmethod
-    def compare_achievements(player1, player2):
+    def compare_achievements(player1: 'Player', player2: 'Player') -> None:
         '''
             (outdated)
             compare_achievements is a static method that compares the
@@ -48,7 +48,9 @@ class Player:
         print(f"{player2.name} unique: {player2_unique_achievements}")
 
 
-def is_rare_achievement(achievement, achievement_player, player_list):
+def is_rare_achievement(achievement: str,
+                        achievement_player: Player,
+                        player_list: list[Player]) -> bool:
     '''
         is_rare_achievement is a function that checks if an achievement
         is rare (i.e., obtained by only one player) among a list of players.
@@ -60,7 +62,7 @@ def is_rare_achievement(achievement, achievement_player, player_list):
     return True
 
 
-def ft_achievement_tracker():
+def ft_achievement_tracker() -> None:
     '''
         ft_achievement_tracker is a function that creates players with
         achievements, prints their achievements, and performs analytics

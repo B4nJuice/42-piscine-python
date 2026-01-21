@@ -3,7 +3,7 @@
 import sys
 
 
-def ft_score_analytics():
+def ft_score_analytics() -> None:
     '''
     Displays analytics for player scores provided as command-line arguments.
     '''
@@ -18,7 +18,7 @@ def ft_score_analytics():
 
     if argc < 2:
         print("No scores provided. Usage: ./ft_score_analytics.py\
-<score1> <score2> ...")
+ <score1> <score2> ...")
         return
     for arg in argv[1:]:
         try:

@@ -4,7 +4,8 @@ import sys
 import math
 
 
-def calculate_distance(coord1, coord2):
+def calculate_distance(coord1: tuple[int, int, int],
+                       coord2: tuple[int, int, int]) -> None:
     '''
     Calculates and prints the Euclidean distance between two 3D coordinates.
     '''
@@ -15,7 +16,7 @@ def calculate_distance(coord1, coord2):
     print(f"Distance between {coord1} and {coord2}: {distance}")
 
 
-def parse_coordinates():
+def parse_coordinates() -> list[tuple[int, int, int]]:
     argv = sys.argv
     argc = len(argv)
 
@@ -52,7 +53,7 @@ def parse_coordinates():
     return tuples_coords
 
 
-def create_position(x, y, z):
+def create_position(x: int, y: int, z: int) -> tuple[int, int, int]:
     '''
     Creates a 3D coordinate position from x, y, and z values.
     '''
@@ -70,7 +71,7 @@ def create_position(x, y, z):
     return (coord)
 
 
-def get_xyz_coord(coord):
+def get_xyz_coord(coord: tuple[int, int, int]) -> str:
     '''
         Returns a formatted string representing the x, y, and z values of a 3D
         coordinate by unpacking the tuple.
@@ -80,7 +81,7 @@ def get_xyz_coord(coord):
     return (f"x={x}, y={y}, z={z}")
 
 
-def ft_coordinate_system():
+def ft_coordinate_system() -> None:
     '''
     Demonstrates the creation, parsing, and distance calculation of 3D
     coordinates.

@@ -3,7 +3,7 @@
 import sys
 
 
-def ft_command_quest():
+def ft_command_quest() -> None:
     '''
     Displays the program name and its arguments.
     '''

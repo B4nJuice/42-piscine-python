@@ -28,45 +28,45 @@ class Item:
 
         self.set_quantity(new_quantity)
 
-        quantity_added = new_quantity-cur_quantity
-        return (quantity_added)
+        quantity_added = new_quantity - cur_quantity
+        return quantity_added
 
     def remove_quantity(self, quantity):
         '''
         Removes the specified quantity from the current quantity of the item.
         If the resulting quantity is negative, sets it to 0.
         '''
-        return (-self.add_quantity(-quantity))
+        return -self.add_quantity(-quantity)
 
     def get_name(self):
         '''
         Returns the name of the item.
         '''
-        return (self.item["name"])
+        return self.item.get("name")
 
     def get_type(self):
         '''
         Returns the type of the item.
         '''
-        return (self.item["type"])
+        return self.item.get("type")
 
     def get_rarity(self):
         '''
         Returns the rarity of the item.
         '''
-        return (self.item["rarity"])
+        return self.item.get("rarity")
 
     def get_value(self):
         '''
         Returns the value of the item.
         '''
-        return (self.item["value"])
+        return self.item.get("value")
 
     def get_quantity(self):
         '''
         Returns the quantity of the item.
         '''
-        return (self.item["quantity"])
+        return self.item.get("quantity")
 
     def copy_item(self):
         '''
@@ -95,20 +95,20 @@ class Player:
         '''
         Returns the name of the player.
         '''
-        return (self.__name)
+        return self.__name
 
     def get_inventory(self):
         '''
         Returns the inventory of the player.
         '''
-        return (self.__inventory)
+        return self.__inventory
 
     def get_items(self):
         '''
         Returns the list of items in the player's inventory.
         '''
         inventory = self.get_inventory()
-        return (inventory["items"])
+        return inventory.get("items")
 
     def add_item(self, item):
         '''
@@ -119,8 +119,9 @@ class Player:
 
         for inventory_item in items:
             if inventory_item.get_name() == item.get_name():
-                new_quantiy = item.get_quantity()+inventory_item.get_quantity()
-                item.set_quantity(new_quantiy)
+                new_quantity = item.get_quantity()\
+                    + inventory_item.get_quantity()
+                item.set_quantity(new_quantity)
                 return
 
         items.append(item)
@@ -135,9 +136,9 @@ class Player:
         for item in items:
             value = item.get_value()
             quantity = item.get_quantity()
-            total_value += value*quantity
+            total_value += value * quantity
 
-        return (total_value)
+        return total_value
 
     def get_item_count(self):
         '''
@@ -150,7 +151,7 @@ class Player:
             quantity = item.get_quantity()
             item_count += quantity
 
-        return (item_count)
+        return item_count
 
     def print_item(self, item):
         '''
@@ -184,9 +185,7 @@ class Player:
             item_count += quantity
 
             type = item.get_type()
-            type_count = 0
-            if type in categories_keys:
-                type_count = categories[type]
+            type_count = categories.get(type, 0)
             type_count += quantity
             categories.update({type: type_count})
 
@@ -199,7 +198,7 @@ class Player:
 
         print("Categories:", end=" ")
         for key in categories_keys:
-            print(f"{key}({categories[key]}),", end=" ")
+            print(f"{key}({categories.get(key)}),", end=" ")
         print()
 
     def get_item_in_inventory(self, name):
@@ -212,15 +211,13 @@ class Player:
         for item in items:
             item_name = item.get_name()
             if item_name == name:
-                return (item)
+                return item
         return None
 
     def give(self, player, item_name, quantity):
         '''
         Gives the specified quantity of the item with the specified name to
-        another player. If the item is not found in the inventory, or if the
-        quantity to give is greater than the quantity in the inventory, the
-        transaction fails.
+        another player.
         '''
         item = self.get_item_in_inventory(item_name)
 
@@ -251,7 +248,29 @@ class Player:
                 item_name = item.get_name()
                 matched_items.append(item_name)
 
-        return (matched_items)
+        return matched_items
+
+    def get_least_abundant_item(self) -> tuple[str, int]:
+        items = self.get_items()
+
+        searched_item = None
+
+        for item in items:
+            if searched_item is None\
+                    or searched_item.get_quantity() > item.get_quantity():
+                searched_item = item
+        return (searched_item.get_name(), searched_item.get_quantity())
+
+    def get_most_abundant_item(self) -> tuple[str, int]:
+        items = self.get_items()
+
+        searched_item = None
+
+        for item in items:
+            if searched_item is None\
+                    or searched_item.get_quantity() < item.get_quantity():
+                searched_item = item
+        return (searched_item.get_name(), searched_item.get_quantity())
 
 
 def ft_inventory_system():
@@ -301,7 +320,7 @@ def ft_inventory_system():
 
     print(f"Most valuable player: {mv_player_name} ({mv_player_value} gold)")
 
-    mi_player_name = mv_player.get_name()
+    mi_player_name = mi_player.get_name()
 
     print(f"Most items: {mi_player_name} ({mi_player_count} items)")
 
@@ -313,6 +332,29 @@ def ft_inventory_system():
             rare_items.append(item)
 
     print(f"Rare items: {','.join(rare_items)}")
+
+    print("\n=== Alice's inventory statistics ===\n")
+    least_name, least_quantity = alice.get_least_abundant_item()
+    print(f"Least abundant: {least_name} ({least_quantity} unit\
+{'s'*(least_quantity > 1)})")
+    most_name, most_quantity = alice.get_most_abundant_item()
+    print(f"Most abundant: {most_name} ({most_quantity} unit\
+{'s'*(most_quantity > 1)})")
+
+    print("\n=== Dictionary Properties Demo ===\n")
+    bob_items = bob.get_items()
+
+    for item in bob_items:
+        item_keys = item.item.keys()
+        item_values = item.item.values()
+        print(f"Dictionnary keys: {item_keys}")
+        print(f"Dictionnary values: {item_values}")
+
+    print(f"Sample lookup : - 'Potion' in inventory : \
+{bob.get_item_in_inventory('Potion') is not None}")
+
+    print(f"Sample lookup : - 'Sword' in inventory : \
+{bob.get_item_in_inventory('Sword') is not None}")
 
 
 if __name__ == "__main__":
