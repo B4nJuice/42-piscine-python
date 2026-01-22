@@ -349,10 +349,14 @@ def ft_analytics_dashboard() -> None:
     total_unique_achievements = len(achievement_set)
     total_score = sum(player_score_list)
     average_score = total_score / total_players
+    top_performer = sorted(player_list, reverse=True, key=Player.get_score)[0]
 
     print(f"Total players: {total_players}")
     print(f"Total unique achievements: {total_unique_achievements}")
-    print(f"Total players: {average_score}")
+    print(f"Average score: {average_score}")
+    print(f"Top performer: {top_performer.get_name()}\
+ ({top_performer.get_score()} points, {len(top_performer.get_achievements())})"
+        )
 
 
 if __name__ == "__main__":
