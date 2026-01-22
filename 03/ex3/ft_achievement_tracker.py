@@ -86,18 +86,14 @@ def ft_achievement_tracker() -> None:
 
     print("\n=== Achievements Analytics ===\n")
 
-    all_achievements = []
+    all_achievements = set()
     player_list = (alice, bob, charlie)
 
     for player in player_list:
-        for achievement in player.achievements:
-            all_achievements.append(achievement)
-
-    all_achievements = set(all_achievements)
-    n_all_achievements = len(all_achievements)
+        all_achievements = all_achievements.union(player.achievements)
 
     print(f"All unique achievements: {all_achievements}")
-    print(f"Total unique achievements: {n_all_achievements}\n")
+    print(f"Total unique achievements: {len(all_achievements)}\n")
 
     common_to_all = alice.achievements.intersection(bob.achievements,
                                                     charlie.achievements)
