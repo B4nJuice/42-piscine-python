@@ -1,3 +1,6 @@
 __pycache__
 .vscode
 .gitignore
+*.txt
+04/data_generator.py
+04/sample_data.json
