@@ -16,7 +16,6 @@ def ft_archive_creation():
                 )
             file.write(content)
             print(content)
-            file.close()
         print("Data inscription complete. Storage unit sealed.")
         print("Archive 'new_discovery.txt' ready for long-term preservation.")
     except PermissionError as e:

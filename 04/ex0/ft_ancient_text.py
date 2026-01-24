@@ -11,7 +11,6 @@ def ft_ancient_text():
             print("RECOVERED DATA:")
             content = file.read()
             print(content)
-            file.close()
         print("\nData recovery complete.", end=" ")
     except (FileNotFoundError, PermissionError):
         print("ERROR: Storage vault not found. Run data generator first.\n")
