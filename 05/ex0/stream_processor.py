@@ -126,6 +126,19 @@ def stream_processor() -> None:
     log: LogProcessor = LogProcessor()
     log.do_all(log_data)
 
+    print("\nProcessing multiple data types through same interface...")
+    data_list: List[tuple[Any, DataProcessor]] = [
+        ([1, 2, 3], num),
+        ("Hello World!", text),
+        ("INFO: System ready", log)
+    ]
+
+    for i, (data, processor) in enumerate(data_list):
+        result: str = processor.process(data)
+        print(f"Result {i+1}: {result}")
+
+    print("\nFoundation systems online. Nexus ready for advanced streams.")
+
 
 if __name__ == "__main__":
     stream_processor()
