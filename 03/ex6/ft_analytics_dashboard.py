@@ -354,9 +354,10 @@ def ft_analytics_dashboard() -> None:
     print(f"Total players: {total_players}")
     print(f"Total unique achievements: {total_unique_achievements}")
     print(f"Average score: {average_score}")
-    print(f"Top performer: {top_performer.get_name()}\
+    print(
+        f"Top performer: {top_performer.get_name()}\
  ({top_performer.get_score()} points, {len(top_performer.get_achievements())})"
-        )
+         )
 
 
 if __name__ == "__main__":
