@@ -92,7 +92,8 @@ class LogProcessor(DataProcessor):
                 log_type, flag = log_type
                 if data.startswith(log_type):
                     output_log = data.replace(
-                        log_type, f"[{flag}] {log_type} level detected: "
+                        log_type, f"[{flag}] {log_type} level detected: ",
+                        1
                         )
             return f"Processed log: {output_log}"
 
@@ -110,6 +111,8 @@ class LogProcessor(DataProcessor):
 
 
 def stream_processor() -> None:
+    print("=== CODE NEXUS - DATA PROCESSOR FOUNDATION ===\n")
+
     num_data: List[int] = [1, 2, 3, 4, 5]
     num: NumericProcessor = NumericProcessor()
     num.do_all(num_data)
@@ -125,6 +128,8 @@ def stream_processor() -> None:
     log_data: str = "ERROR: Connection timeout"
     log: LogProcessor = LogProcessor()
     log.do_all(log_data)
+
+    print("\n=== Polymorphic Processing Demo ===")
 
     print("\nProcessing multiple data types through same interface...")
     data_list: List[tuple[Any, DataProcessor]] = [
