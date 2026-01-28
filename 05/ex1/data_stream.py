@@ -94,6 +94,32 @@ class TransactionStream(DataStream):
  net flow: {net_flow:+} units"
 
 
+class EventStream(DataStream):
+    def __init__(self, stream_id: str, data_type: str) -> None:
+        super().__init__(stream_id, "Event Stream", data_type)
+
+    def process_batch(self, data_batch: List[Any]) -> str:
+        errors: int = 0
+
+        for data in data_batch:
+            try:
+                if isinstance(data, str):
+                    if data not in ["login", "logout", "error"]:
+                        raise ValueError(
+                            f"{data} is not supported"
+                            )
+
+                    if data == "error":
+                        errors += 1
+                else:
+                    raise ValueError(f"{data} has to be str.")
+            except Exception:
+                print(f"format error: {data}")
+
+        return f"Event Analysis: {len(data_batch)} events,\
+ {errors} error{'s'*(errors > 1)} detected"
+
+
 def data_stream() -> None:
     print("=== CODE NEXUS - POLYMORPHIC STREAM SYSTEM ===\n")
 
@@ -101,7 +127,7 @@ def data_stream() -> None:
     sensor_stats: Dict[str, Union[str, int, float]] = sensor.get_stats()
 
     print(f"Stream ID: {sensor_stats.get('stream_id')},\
-Type: {sensor_stats.get('data_type')}")
+ Type: {sensor_stats.get('data_type')}")
 
     sensor_batch: List[str] = ["temp:22.5", "humidity:65", "pressure:1013"]
     print(f"Processing sensor batch: {sensor_batch}")
@@ -118,13 +144,30 @@ Type: {sensor_stats.get('data_type')}")
         str, Union[str, int, float]] = transaction.get_stats()
 
     print(f"Stream ID: {transaction_stats.get('stream_id')},\
-Type: {transaction_stats.get('data_type')}")
+ Type: {transaction_stats.get('data_type')}")
 
     transaction_batch: List[str] = ["buy:100", "sell:150", "buy:75"]
     print(f"Processing transaction batch: {transaction_batch}")
 
     transaction_analysis: str = transaction.process_batch(transaction_batch)
     print(transaction_analysis)
+
+    print()
+
+    event: EventStream = EventStream(
+        "EVENT_001",
+        "System Events")
+    event_stats: Dict[
+        str, Union[str, int, float]] = event.get_stats()
+
+    print(f"Stream ID: {event_stats.get('stream_id')},\
+ Type: {event_stats.get('data_type')}")
+
+    event_batch: List[str] = ["login", "error", "logout"]
+    print(f"Processing transaction batch: {event_batch}")
+
+    event_analysis: str = event.process_batch(event_batch)
+    print(event_analysis)
 
 
 if __name__ == "__main__":
