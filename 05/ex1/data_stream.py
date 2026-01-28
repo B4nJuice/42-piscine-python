@@ -6,8 +6,14 @@ from abc import ABC, abstractmethod
 
 class DataStream(ABC):
 
-    def __init__(self, stream_id: int) -> None:
-        self.__stream_id: int = stream_id
+    def __init__(
+            self,
+            stream_id: int,
+            stream_type: str,
+            data_type: str) -> None:
+        self.__stream_id: str = stream_id
+        self.__data_type: str = data_type
+        print(f"Initializing {stream_type}...")
 
     @abstractmethod
     def process_batch(self, data_batch: List[Any]) -> str:
@@ -20,13 +26,18 @@ class DataStream(ABC):
         pass
 
     def get_stats(self) -> Dict[str, Union[str, int, float]]:
-        pass
+        return {
+            "stream_id": self.__stream_id,
+            "data_type": self.__data_type
+        }
 
 
 class SensorStream(DataStream):
+    def __init__(self, stream_id: str, data_type: str) -> None:
+        super().__init__(stream_id, "Sensor Stream", data_type)
+
     def process_batch(self, data_batch: List[Any]) -> str:
         temps: List[float] = []
-        reading_processed = 0
 
         for data in data_batch:
             try:
@@ -36,10 +47,11 @@ class SensorStream(DataStream):
                         raise ValueError(
                             f"key {key} in {data} is not supported"
                             )
-                    temps.append(float(value))
+
+                    if key == "temp":
+                        temps.append(float(value))
                 else:
                     raise ValueError(f"{data} has to be str.")
-                reading_processed += 1
             except Exception:
                 print(f"format error: {data}")
 
@@ -47,7 +59,27 @@ class SensorStream(DataStream):
         if n_temp == 0:
             avg_temp: str = "undefined"
         else:
-            avg_temp: float = sum(temps) / len(temps)
+            avg_temp: float = sum(temps) / n_temp
 
-        return f"Sensor Analysis: {reading_processed} readings processed,\
-avg temp: {avg_temp:.1f}°C"
+        return f"Sensor Analysis: {len(data_batch)} readings processed,\
+ avg temp: {avg_temp:.1f}°C"
+
+
+def data_stream() -> None:
+    print("=== CODE NEXUS - POLYMORPHIC STREAM SYSTEM ===\n")
+
+    sensor: SensorStream = SensorStream("SENSOR_001", "Environmental Data")
+    sensor_stats: Dict[str, Union[str, int, float]] = sensor.get_stats()
+
+    print(f"Stream ID: {sensor_stats.get('stream_id')},\
+Type: {sensor_stats.get('data_type')}")
+
+    sensor_batch: List[str] = ["temp:22.5", "humidity:65", "pressure:1013"]
+    print(f"Processing sensor batch: {sensor_batch}")
+
+    sensor_analysis: str = sensor.process_batch(sensor_batch)
+    print(sensor_analysis)
+
+
+if __name__ == "__main__":
+    data_stream()
