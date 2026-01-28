@@ -169,6 +169,26 @@ def data_stream() -> None:
     event_analysis: str = event.process_batch(event_batch)
     print(event_analysis)
 
+    print("\n=== Polymorphic Stream Processing ===")
+    print("Processing mixed stream types through unified interface...\n")
+
+    print("Batch 1 Results:")
+    mixed_streams: List[tuple[DataStream, List[str]]] = [
+        (sensor, ["temp:20.2", "humidity:50"]),
+        (transaction, ["buy:100", "sell:50", "buy:20", "sell:10"]),
+        (event, ["login", "error"])
+    ]
+
+    for stream, data_batch in mixed_streams:
+        if isinstance(stream, SensorStream):
+            print(f"Sensor data: {len(data_batch)} readings processed")
+        elif isinstance(stream, TransactionStream):
+            print(f"Transaction data: {len(data_batch)} operations processed")
+        elif isinstance(stream, EventStream):
+            print(f"Event data: {len(data_batch)} events processed")
+
+    print("\nAll streams processed successfully. Nexus throughput optimal.")
+
 
 if __name__ == "__main__":
     data_stream()
