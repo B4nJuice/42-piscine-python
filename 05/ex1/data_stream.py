@@ -33,8 +33,16 @@ class DataStream(ABC):
         }
 
 
+class StreamProcessor():
+    def process_batch(self, stream: DataStream, data: List[Any]) -> None:
+        if not isinstance(stream, DataStream):
+            print(f"[ERROR] Invalid stream type: {type(stream)}")
+            return
+        return stream.process_batch(data)
+
+
 class SensorStream(DataStream):
-    def __init__(self, stream_id: str, data_type: str) -> None:
+    def __init__(self, stream_id: str, data_type: str = "unknown") -> None:
         super().__init__(stream_id, "Sensor Stream", data_type)
 
     def process_batch(self, data_batch: List[Any]) -> str:
@@ -79,7 +87,7 @@ class SensorStream(DataStream):
 
 
 class TransactionStream(DataStream):
-    def __init__(self, stream_id: str, data_type: str) -> None:
+    def __init__(self, stream_id: str, data_type: str = "unknown") -> None:
         super().__init__(stream_id, "Transaction Stream", data_type)
 
     def process_batch(self, data_batch: List[Any]) -> str:
@@ -103,7 +111,7 @@ class TransactionStream(DataStream):
             except Exception:
                 print(f"format error: {data}")
 
-        return f"Trensaction Analysis: {len(data_batch)} operations,\
+        return f"Transaction Analysis: {len(data_batch)} operations,\
  net flow: {net_flow:+} units"
 
     def filter_data(
@@ -119,7 +127,7 @@ class TransactionStream(DataStream):
 
 
 class EventStream(DataStream):
-    def __init__(self, stream_id: str, data_type: str) -> None:
+    def __init__(self, stream_id: str, data_type: str = "unknown") -> None:
         super().__init__(stream_id, "Event Stream", data_type)
 
     def process_batch(self, data_batch: List[Any]) -> str:
@@ -147,6 +155,8 @@ class EventStream(DataStream):
 def data_stream() -> None:
     print("=== CODE NEXUS - POLYMORPHIC STREAM SYSTEM ===\n")
 
+    manager: StreamProcessor = StreamProcessor()
+
     sensor: SensorStream = SensorStream("SENSOR_001", "Environmental Data")
     sensor_stats: Dict[str, Union[str, int, float]] = sensor.get_stats()
 
@@ -156,7 +166,7 @@ def data_stream() -> None:
     sensor_batch: List[str] = ["temp:22.5", "humidity:65", "pressure:1013"]
     print(f"Processing sensor batch: {sensor_batch}")
 
-    sensor_analysis: str = sensor.process_batch(sensor_batch)
+    sensor_analysis: str = manager.process_batch(sensor, sensor_batch)
     print(sensor_analysis)
 
     print()
@@ -173,7 +183,8 @@ def data_stream() -> None:
     transaction_batch: List[str] = ["buy:100", "sell:150", "buy:75"]
     print(f"Processing transaction batch: {transaction_batch}")
 
-    transaction_analysis: str = transaction.process_batch(transaction_batch)
+    transaction_analysis: str = manager.process_batch(
+        transaction, transaction_batch)
     print(transaction_analysis)
 
     print()
@@ -190,7 +201,7 @@ def data_stream() -> None:
     event_batch: List[str] = ["login", "error", "logout"]
     print(f"Processing event batch: {event_batch}")
 
-    event_analysis: str = event.process_batch(event_batch)
+    event_analysis: str = manager.process_batch(event, event_batch)
     print(event_analysis)
 
     print("\n=== Polymorphic Stream Processing ===")
