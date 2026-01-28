@@ -23,7 +23,8 @@ class DataStream(ABC):
             self,
             data_batch: List[Any],
             criteria: Optional[str] = None) -> List[Any]:
-        pass
+
+        return [data for data in data_batch if data == criteria]
 
     def get_stats(self) -> Dict[str, Union[str, int, float]]:
         return {
@@ -64,6 +65,18 @@ class SensorStream(DataStream):
         return f"Sensor Analysis: {len(data_batch)} readings processed,\
  avg temp: {avg_temp:.1f}°C"
 
+    def filter_data(
+            self,
+            data_batch: List[Any],
+            criteria: Optional[str] = None) -> List[Any]:
+        try:
+            crit, high = criteria.split(":")
+            high = float(high)
+            return [data for data in data_batch if float(
+                data.split(":")[1]) >= high and data.startswith(crit)]
+        except Exception:
+            return super().filter_data(data_batch, criteria)
+
 
 class TransactionStream(DataStream):
     def __init__(self, stream_id: str, data_type: str) -> None:
@@ -92,6 +105,17 @@ class TransactionStream(DataStream):
 
         return f"Trensaction Analysis: {len(data_batch)} operations,\
  net flow: {net_flow:+} units"
+
+    def filter_data(
+            self,
+            data_batch: List[Any],
+            criteria: Optional[str] = None) -> List[Any]:
+        try:
+            large_trans: int = int(criteria)
+            return [data for data in data_batch if int(
+                data.split(":")[1]) >= large_trans]
+        except Exception:
+            return super().filter_data(data_batch, criteria)
 
 
 class EventStream(DataStream):
@@ -164,7 +188,7 @@ def data_stream() -> None:
  Type: {event_stats.get('data_type')}")
 
     event_batch: List[str] = ["login", "error", "logout"]
-    print(f"Processing transaction batch: {event_batch}")
+    print(f"Processing event batch: {event_batch}")
 
     event_analysis: str = event.process_batch(event_batch)
     print(event_analysis)
@@ -186,6 +210,16 @@ def data_stream() -> None:
             print(f"Transaction data: {len(data_batch)} operations processed")
         elif isinstance(stream, EventStream):
             print(f"Event data: {len(data_batch)} events processed")
+
+    print("\nStream filtering active.")
+
+    print(f"\nFiltering sensor batch: {sensor_batch} with humidity >= 10:")
+    print(sensor.filter_data(sensor_batch, "humidity:10"))
+    print(f"\nFiltering transaction batch: {transaction_batch} with\
+ transaction > 100:")
+    print(transaction.filter_data(transaction_batch, "100"))
+    print(f"\nFiltering event batch: {event_batch} with \"logout\":")
+    print(event.filter_data(event_batch, "logout"))
 
     print("\nAll streams processed successfully. Nexus throughput optimal.")
 
