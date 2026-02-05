@@ -16,13 +16,22 @@ class CreatureCard(Card):
 
     def set_attack(self, attack: int) -> None:
         if not isinstance(attack, int) or attack <= 0:
-            raise ValueError("Attack has to be a positibe integer.")
+            raise ValueError("Attack has to be a positive integer.")
         self.attack: int = attack
 
     def set_health(self, health: int) -> None:
         if not isinstance(health, int) or health <= 0:
-            raise ValueError("Health has to be a positibe integer.")
+            raise ValueError("Health has to be a positive integer.")
         self.health: int = health
+
+    def get_card_info(self) -> dict[str, str | int]:
+        card_info: dict[str, str | int] = super().get_card_info
+
+        card_info.update({"type": "Creature"})
+        card_info.update({"attack": self.attack})
+        card_info.update({"health": self.health})
+
+        return card_info
 
     def play(self, game_state: dict) -> dict[str, str | int] | None:
         play_result: dict[str, str | int] = {}

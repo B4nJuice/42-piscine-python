@@ -26,8 +26,14 @@ class Card(ABC):
     def play(self, game_state: dict) -> dict:
         pass
 
-    def get_card_info(self) -> dict:
-        pass
+    def get_card_info(self) -> dict[str, str | int]:
+        card_info: dict[str, str | int] = {}
+
+        card_info.update({"name": self.name})
+        card_info.update({"cost": self.cost})
+        card_info.update({"rarity": self.rarity})
+
+        return card_info
 
     def is_playable(self, available_mana: int) -> bool:
         return self.cost <= available_mana
