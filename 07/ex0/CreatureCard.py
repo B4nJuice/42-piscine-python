@@ -1,3 +1,4 @@
+from typing import Any
 from Card import Card
 
 
@@ -15,13 +16,13 @@ class CreatureCard(Card):
         self.set_health(health)
 
     def set_attack(self, attack: int) -> None:
-        if not isinstance(attack, int) or attack <= 0:
-            raise ValueError("Attack has to be a positive integer.")
+        if not isinstance(attack, int) or attack < 0:
+            raise ValueError("Attack has to be a non-negative integer.")
         self.attack: int = attack
 
     def set_health(self, health: int) -> None:
-        if not isinstance(health, int) or health <= 0:
-            raise ValueError("Health has to be a positive integer.")
+        if not isinstance(health, int) or health < 0:
+            raise ValueError("Health has to be a non-negative integer.")
         self.health: int = health
 
     def get_card_info(self) -> dict[str, str | int]:
@@ -33,7 +34,7 @@ class CreatureCard(Card):
 
         return card_info
 
-    def play(self, game_state: dict) -> dict[str, str | int] | None:
+    def play(self, game_state: dict[str, Any]) -> dict[str, str | int] | None:
         play_result: dict[str, str | int] = {}
         available_mana: int = game_state.get("available_mana")
 
@@ -41,6 +42,9 @@ class CreatureCard(Card):
             play_result.update({"card_played": self.name})
             play_result.update({"mana_used": self.cost})
             play_result.update({"effect": "Creature summoned to battlefield"})
+
+            self.on_board = True
+
             return play_result
 
         return None

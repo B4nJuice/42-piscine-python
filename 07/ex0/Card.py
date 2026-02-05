@@ -1,4 +1,13 @@
-from abc import ABC, abstractmethod
+from collections.abc import ABC, abstractmethod
+from enum import Enum
+
+
+class Rarity(Enum):
+    COMMON = "Common"
+    UNCOMMON = "Uncommon"
+    RARE = "Rare"
+    EPIC = "Epic"
+    LEGENDARY = "Legendary"
 
 
 class Card(ABC):
@@ -6,6 +15,8 @@ class Card(ABC):
         self.set_name(name)
         self.set_cost(cost)
         self.set_rarity(rarity)
+        self.consumed = False
+        self.om_board = False
 
     def set_name(self, name: str) -> None:
         if not isinstance(name, str) or name == "":

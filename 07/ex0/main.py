@@ -2,6 +2,7 @@
 
 from typing import Any
 from CreatureCard import CreatureCard
+from Card import Rarity
 
 
 def add_mana(game_state: dict[str], quantity: int) -> None:
@@ -40,7 +41,7 @@ def main() -> None:
         fire_dragon: CreatureCard = CreatureCard(
             "Fire Dragon",
             5,
-            "Legendary",
+            Rarity.LEGENDARY.value,
             7,
             5
         )
@@ -57,7 +58,7 @@ def main() -> None:
         goblin_warrior: CreatureCard = CreatureCard(
             "Goblin Warrior",
             3,
-            "Rare",
+            Rarity.RARE.value,
             4,
             6
         )
