@@ -1,4 +1,4 @@
-from .Card import Card
+from Card import Card
 
 
 class CreatureCard(Card):
@@ -12,7 +12,7 @@ class CreatureCard(Card):
             ) -> None:
         super().__init__(name, cost, rarity)
         self.set_attack(attack)
-        self.set_attack(health)
+        self.set_health(health)
 
     def set_attack(self, attack: int) -> None:
         if not isinstance(attack, int) or attack <= 0:
@@ -25,7 +25,7 @@ class CreatureCard(Card):
         self.health: int = health
 
     def get_card_info(self) -> dict[str, str | int]:
-        card_info: dict[str, str | int] = super().get_card_info
+        card_info: dict[str, str | int] = super().get_card_info()
 
         card_info.update({"type": "Creature"})
         card_info.update({"attack": self.attack})
@@ -52,6 +52,6 @@ class CreatureCard(Card):
         attack_result.update({"target": target.name})
         target.health -= self.attack
         attack_result.update({"damage_dealt": self.attack})
-        attack_result.update({"combat_resolved": target.health > 0})
+        attack_result.update({"combat_resolved": not target.health > 0})
 
         return attack_result
