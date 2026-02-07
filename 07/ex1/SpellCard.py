@@ -3,7 +3,7 @@ from enum import Enum
 from ex0 import Card, CreatureCard
 
 
-class EffectType(Enum):
+class SpellEffectType(Enum):
     DAMAGE = "damage"
     HEAL = "heal"
     BUFF = "buff"
@@ -36,12 +36,12 @@ class SpellCard(Card):
         if not isinstance(effect_type, str) or effect_type == "":
             raise ValueError("Effect type cannot be empty.")
 
-        for effect in EffectType:
+        for effect in SpellEffectType:
             if effect.value == effect_type:
                 self.effect_type = effect_type
                 return
 
-        raise ValueError("Effect type has to be in the EffectType enum.")
+        raise ValueError("Effect type has to be in the SpellEffectType enum.")
 
     def set_effect_power(self, effect_power: int) -> None:
         if not isinstance(effect_power, int) or effect_power <= 0:
@@ -66,19 +66,19 @@ class SpellCard(Card):
         unity: str = None
 
         match self.effect_type:
-            case EffectType.BUFF.value:
+            case SpellEffectType.BUFF.value:
                 action = "Buff"
                 unity = "attack"
 
-            case EffectType.DEBUFF.value:
+            case SpellEffectType.DEBUFF.value:
                 action = "Debuff"
                 unity = "attack"
 
-            case EffectType.DAMAGE.value:
+            case SpellEffectType.DAMAGE.value:
                 action = "Deal"
                 unity = "damage"
 
-            case EffectType.HEAL.value:
+            case SpellEffectType.HEAL.value:
                 action = "Heal"
                 unity = "Health points"
 
@@ -140,19 +140,19 @@ class SpellCard(Card):
             raise ValueError(f"Invalid number of targets ({num_type} {num})")
 
         match self.effect_type:
-            case EffectType.BUFF.value:
+            case SpellEffectType.BUFF.value:
                 for target in targets:
                     target.attack += self.effect_power
 
-            case EffectType.DEBUFF.value:
+            case SpellEffectType.DEBUFF.value:
                 for target in targets:
                     target.attack -= self.effect_power
 
-            case EffectType.HEAL.value:
+            case SpellEffectType.HEAL.value:
                 for target in targets:
                     target.health += self.effect_power
 
-            case EffectType.DAMAGE.value:
+            case SpellEffectType.DAMAGE.value:
                 for target in targets:
                     target.health -= self.effect_power
 

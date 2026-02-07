@@ -3,7 +3,7 @@ from ex0 import Card
 from enum import Enum
 
 
-class EffectType(Enum):
+class ArtifactEffectType(Enum):
     MANA = "mana"
 
 
@@ -27,12 +27,14 @@ class ArtifactCard(Card):
             if not isinstance(effect_type, str) or effect_type == "":
                 raise ValueError("Effect type cannot be empty.")
 
-            for effect in EffectType:
+            for effect in ArtifactEffectType:
                 if effect.value == effect_type:
                     self.effect_type: str = effect_type
                     return
 
-            raise ValueError("Effect type has to be in the EffectType enum.")
+            raise ValueError(
+                    "Effect type has to be in the ArtifactEffectType enum."
+                )
 
         def set_effect_power(self, effect_power: int) -> None:
             if not isinstance(effect_power, int) or effect_power <= 0:
@@ -78,7 +80,7 @@ class ArtifactCard(Card):
                 durability = "Permanent"
 
             match self.effect_type:
-                case EffectType.MANA.value:
+                case ArtifactEffectType.MANA.value:
                     available_mana: int = game_state.get("available_mana")
                     game_state.update({
                             "available_mana": available_mana
@@ -98,5 +100,5 @@ class ArtifactCard(Card):
         def get_effect_description(self) -> str:
 
             match self.effect_type:
-                case EffectType.MANA.value:
+                case ArtifactEffectType.MANA.value:
                     return ()
