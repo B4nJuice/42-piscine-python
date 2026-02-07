@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 from typing import Any
-from CreatureCard import CreatureCard
-from Card import Rarity
+from .CreatureCard import CreatureCard
+from .Card import Rarity
 
 
 def add_mana(game_state: dict[str], quantity: int) -> None:

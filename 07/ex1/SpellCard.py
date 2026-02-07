@@ -86,7 +86,7 @@ class SpellCard(Card):
         num_type = self.num_target.get("num_type").value
 
         return f"{action} {self.effect_power} {unity} to targets.\
- ({num} {num_type} targets)"
+ ({num_type} {num} targets)"
 
     def play(
                 self,
@@ -100,6 +100,8 @@ class SpellCard(Card):
             play_result.update({"card_played": self.name})
             play_result.update({"mana_used": self.cost})
             play_result.update({"effect": self.get_effect_description()})
+
+            game_state.update({"available_mana": available_mana - self.cost})
 
             spell_result: dict[str, list[str]] = self.resolve_effect(targets)
 
@@ -161,6 +163,8 @@ class SpellCard(Card):
         spell_result.update({"card_played": self.name})
         spell_result.update({"mana_used": self.cost})
         spell_result.update({"targets": [target.name for target in targets]})
+
+        return spell_result
 
     def get_card_info(self) -> dict[str, str | int]:
         card_info: dict[str, str | int] = super().get_card_info()

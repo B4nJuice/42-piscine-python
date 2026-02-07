@@ -1,5 +1,5 @@
 from typing import Any
-from Card import Card
+from .Card import Card
 
 
 class CreatureCard(Card):
@@ -42,6 +42,8 @@ class CreatureCard(Card):
             play_result.update({"card_played": self.name})
             play_result.update({"mana_used": self.cost})
             play_result.update({"effect": "Creature summoned to battlefield"})
+
+            game_state.update({"available_mana": available_mana - self.cost})
 
             self.on_board = True
 
