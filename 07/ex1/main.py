@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
-from ex1 import SpellCard, SpellEffectType, NumType, ArtifactCard, ArtifactEffectType
+from ex1 import SpellCard, SpellEffectType, NumType, ArtifactCard, ArtifactEffectType, Deck
 from ex0 import Rarity, CreatureCard
 
 
 if __name__ == "__main__":
     test_spell: SpellCard = SpellCard(
-            "test",
+            "spell",
             49,
             Rarity.COMMON.value,
             SpellEffectType.DAMAGE.value,
@@ -39,3 +39,14 @@ if __name__ == "__main__":
     print(test_artifact.activate_ability(game_state))
 
     print(game_state.get("available_mana"))
+
+    deck = Deck()
+    deck.add_card(test_creature)
+    deck.add_card(test_artifact)
+    deck.add_card(test_spell)
+
+    deck.shuffle()
+
+    print(deck.draw_card().name)
+
+    print(deck.get_deck_stats())
