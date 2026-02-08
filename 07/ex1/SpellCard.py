@@ -32,6 +32,8 @@ class SpellCard(Card):
         self.set_effect_power(effect_power)
         self.set_num_target(num_target)
 
+        self.consumed = False
+
     def set_effect_type(self, effect_type: str) -> None:
         if not isinstance(effect_type, str) or effect_type == "":
             raise ValueError("Effect type cannot be empty.")
@@ -91,7 +93,6 @@ class SpellCard(Card):
     def play(
                 self,
                 game_state: dict[str, Any],
-                targets: list[CreatureCard]
             ) -> dict[str, str | int] | None:
         play_result: dict[str, str | int] = {}
         available_mana: int = game_state.get("available_mana")
@@ -102,12 +103,6 @@ class SpellCard(Card):
             play_result.update({"effect": self.get_effect_description()})
 
             game_state.update({"available_mana": available_mana - self.cost})
-
-            spell_result: dict[str, list[str]] = self.resolve_effect(targets)
-
-            play_result.update(spell_result)
-
-            self.consumed = True
 
             return play_result
 
@@ -163,6 +158,8 @@ class SpellCard(Card):
         spell_result.update({"card_played": self.name})
         spell_result.update({"mana_used": self.cost})
         spell_result.update({"targets": [target.name for target in targets]})
+
+        self.consumed = True
 
         return spell_result
 

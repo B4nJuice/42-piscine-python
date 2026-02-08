@@ -27,7 +27,8 @@ if __name__ == "__main__":
 
     print(test_creature.get_card_info())
 
-    print(test_spell.play(game_state, targets))
+    print(test_spell.play(game_state))
+    print(test_spell.resolve_effect([test_creature]))
 
     print(test_creature.get_card_info())
 
