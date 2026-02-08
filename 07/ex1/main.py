@@ -1,6 +1,13 @@
 #!/usr/bin/env python3
 
-from ex1 import SpellCard, SpellEffectType, NumType, ArtifactCard, ArtifactEffectType, Deck
+from ex1 import (
+        SpellCard,
+        SpellEffectType,
+        NumType,
+        ArtifactCard,
+        ArtifactEffectType,
+        Deck
+    )
 from ex0 import Rarity, CreatureCard
 
 

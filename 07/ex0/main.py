@@ -1,13 +1,7 @@
 #!/usr/bin/env python3
 
 from typing import Any
-from .CreatureCard import CreatureCard
-from .Card import Rarity
-
-
-def add_mana(game_state: dict[str], quantity: int) -> None:
-    new_quantity = game_state.get("available_mana") + quantity
-    game_state.update({"available_mana": new_quantity})
+from ex0 import CreatureCard, Rarity
 
 
 def try_play(card: CreatureCard, game_state: dict[str, Any]) -> None:
@@ -18,7 +12,6 @@ def try_play(card: CreatureCard, game_state: dict[str, Any]) -> None:
     print(f"Playable : {playable_state}")
     if playable_state:
         play_result: dict[str, str | int] = card.play(game_state)
-        add_mana(game_state, -play_result.get("mana_used"))
         print(f"Play result : {play_result}")
 
 
