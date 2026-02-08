@@ -64,7 +64,7 @@ if __name__ == "__main__":
 
     while len(deck.cards):
         card: Card = deck.draw_card()
-        print(f"Drew: {card.name}")
+        print(f"Drew: {card.name} ({card.__class__.__name__})")
         print(f"Play result: {card.play(game_state)}")
         print()
 
