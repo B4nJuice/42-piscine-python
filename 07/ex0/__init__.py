@@ -1,5 +1,5 @@
-from .Card import Card, Rarity
-from .CreatureCard import CreatureCard
+from ex0.Card import Card, Rarity
+from ex0.CreatureCard import CreatureCard
 
 
 __version__ = "1.0.0"
