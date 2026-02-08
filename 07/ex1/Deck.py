@@ -41,7 +41,7 @@ class Deck():
         deck_stats.update({"creatures": len(
                 [card for card in self.cards if isinstance(card, CreatureCard)]
             )})
-        deck_stats.update({"spell": len(
+        deck_stats.update({"spells": len(
                 [card for card in self.cards if isinstance(card, SpellCard)]
             )})
         deck_stats.update({"artifacts": len(
