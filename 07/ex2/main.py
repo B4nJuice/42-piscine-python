@@ -6,7 +6,7 @@ if __name__ == "__main__":
 
     print()
 
-    print("EliteCard cpabilities:")
+    print("EliteCard capabilities:")
     for _cls in EliteCard.__bases__:
         method_list = [
             method for method in dir(_cls) if method.startswith('_') is False
