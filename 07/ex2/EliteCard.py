@@ -34,7 +34,7 @@ class EliteCard(Card, Combatable, Magical):
 
         attack_result.update({"attacker": self.name})
         attack_result.update({"target": target.name})
-        attack_result.update({"damage": self.attack})
+        attack_result.update({"damage": self.attack_power})
         attack_result.update({"combat_type": self.combat_type.value})
 
         return attack_result
@@ -44,7 +44,7 @@ class EliteCard(Card, Combatable, Magical):
 
         defense_result.update({"defender": self.name})
 
-        damage_taken = min(0, incomming_damage - self.defense)
+        damage_taken = max(0, incomming_damage - self.defense)
         self.health -= damage_taken
         defense_result.update({"damage_taken": damage_taken})
         defense_result.update({
@@ -75,7 +75,7 @@ class EliteCard(Card, Combatable, Magical):
 
         cast_result.update({"caster": self.name})
         cast_result.update({"spell": spell.name})
-        cast_result.update({"targets": targets})
+        cast_result.update({"targets": [target.name for target in targets]})
         cast_result.update({"mana_used": spell.cost})
 
         return cast_result
@@ -101,6 +101,23 @@ class EliteCard(Card, Combatable, Magical):
 
         return magic_stats
 
+    def play(self, game_state: dict) -> dict:
+        play_result: dict[str, str | int] = {}
+        available_mana: int = game_state.get("available_mana")
+
+        if self.is_playable(available_mana):
+            play_result.update({"card_played": self.name})
+            play_result.update({"mana_used": self.cost})
+            play_result.update({"effect": "EliteCard summoned to battlefield"})
+
+            game_state.update({"available_mana": available_mana - self.cost})
+
+            self.on_board = True
+
+            return play_result
+
+        return None
+
     def set_combat_type(self, combat_type: CombatType) -> None:
         if not isinstance(combat_type, CombatType):
             raise ValueError("Combat type has to be in the CombatType Enum.")
@@ -119,7 +136,7 @@ class EliteCard(Card, Combatable, Magical):
     def set_attack(self, attack: int) -> None:
         if not isinstance(attack, int) or attack < 0:
             raise ValueError("Attack has to be a non-negative integer.")
-        self.attack: int = attack
+        self.attack_power: int = attack
 
     def set_health(self, health: int) -> None:
         if not isinstance(health, int) or health < 0:

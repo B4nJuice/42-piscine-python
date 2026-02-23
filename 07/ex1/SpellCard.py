@@ -1,6 +1,6 @@
 from typing import Any
 from enum import Enum
-from ex0 import Card, CreatureCard
+from ex0 import Card
 
 
 class SpellEffectType(Enum):
@@ -110,11 +110,13 @@ class SpellCard(Card):
 
     def resolve_effect(
                 self,
-                targets: list[CreatureCard]
+                targets: list[Card]
             ) -> dict[str, str | int | list]:
         for target in targets:
-            if not isinstance(target, CreatureCard):
-                raise ValueError("Spell targets has to be creatures.")
+            if not hasattr(target, 'health') and hasattr(target, 'attack'):
+                raise ValueError(
+                    "Spell targets has to be creatures or enemies."
+                )
 
         n_targets: int = len(targets)
 

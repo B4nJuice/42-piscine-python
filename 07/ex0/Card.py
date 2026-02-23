@@ -16,7 +16,7 @@ class Card(ABC):
         self.set_cost(cost)
         self.set_rarity(rarity)
         self.consumed = False
-        self.om_board = False
+        self.on_board = False
 
     def set_name(self, name: str) -> None:
         if not isinstance(name, str) or name == "":
