@@ -2,6 +2,9 @@ from ex3 import CardFactory, GameStrategy
 
 
 class GameEngine():
+    def __init__(self):
+        pass
+
     def configure_engine(
                 self,
                 factory: CardFactory,
