@@ -5,7 +5,8 @@ from ex1 import (
                     SpellCard,
                     SpellEffectType,
                     ArtifactEffectType,
-                    NumType
+                    NumType,
+                    Deck
                  )
 import random
 
@@ -131,14 +132,14 @@ class FantasyCardFactory(CardFactory):
                 ["mana_crystal"]
             }
 
-        deck: list[Card] = []
+        deck: Deck = Deck()
 
         for _ in range(size):
             card_type: dict[str, callable | list[str]] = (
                 random.choice([creatures, spells, artifacts])
             )
 
-            deck.append(
+            deck.add_card(
                 card_type.get("function")(
                     random.choice(card_type.get("types"))
                 )
