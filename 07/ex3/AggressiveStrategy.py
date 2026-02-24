@@ -5,7 +5,7 @@ from ex1 import SpellCard, SpellEffectType, NumType
 
 class AggressiveStrategy(GameStrategy):
     def execute_turn(self, hand: list, battlefield: list) -> dict:
-        available_mana: int = 7
+        available_mana: int = 15
 
         actions: dict[str, int | list[Card | str]] = {
             "cards_played": [],
@@ -25,7 +25,7 @@ class AggressiveStrategy(GameStrategy):
             if card.cost <= available_mana:
                 available_mana -= card.cost
                 actions["mana_used"] += card.cost
-                actions["cards_played"].append(card)
+                actions["cards_played"].append(card.name)
 
                 hand.remove(card)
                 battlefield.append(card)
@@ -33,33 +33,36 @@ class AggressiveStrategy(GameStrategy):
         for card in battlefield:
             if isinstance(card, CreatureCard):
                 actions["damage_dealt"] += card.attack
-                actions["targets_attacked"].append(
+                actions["targets_attacked"] += (
                         self.prioritize_targets(["Enemy Player"])
                     )
 
             elif isinstance(card, SpellCard):
-                if SpellCard.effect_type == SpellEffectType.DAMAGE.value:
-                    match SpellCard.num_target.get("num_type"):
+                if card.effect_type == SpellEffectType.DAMAGE.value:
+                    match card.num_target.get("num_type"):
                         case NumType.EXACT:
-                            if SpellCard.num_target.get("num_type") == 1:
+                            if card.num_target.get("num") == 1:
                                 actions["damage_dealt"] += card.effect_power
 
                         case NumType.MIN:
-                            if SpellCard.num_target.get("num_type") <= 1:
+                            if card.num_target.get("num") <= 1:
                                 actions["damage_dealt"] += card.effect_power
 
                         case NumType.MAX:
-                            if SpellCard.num_target.get("num_type") >= 1:
+                            if card.num_target.get("num") >= 1:
                                 actions["damage_dealt"] += card.effect_power
 
                         case _:
                             continue
-                    actions["targets_attacked"].append(
+                    actions["targets_attacked"] += (
                             self.prioritize_targets(["Enemy Player"])
                         )
 
+        actions["targets_attacked"] = list(set(actions["targets_attacked"]))
+        return actions
+
     def get_strategy_name(self) -> str:
-        return "AggressiveStrategy"
+        return "aggressive"
 
     def prioritize_targets(self, available_targets: list) -> list:
         available_targets = [

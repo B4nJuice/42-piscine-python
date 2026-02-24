@@ -109,7 +109,7 @@ class FantasyCardFactory(CardFactory):
         return ArtifactCard(
             "Mana Crystal",
             3,
-            Rarity.COMMON,
+            Rarity.COMMON.value,
             ArtifactEffectType.MANA.value,
             2,
             3
@@ -169,3 +169,5 @@ class FantasyCardFactory(CardFactory):
         supported_types.update({"creatures": creatures})
         supported_types.update({"spells": spells})
         supported_types.update({"artifacts": artifacts})
+
+        return supported_types

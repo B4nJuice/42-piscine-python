@@ -1,4 +1,6 @@
 from ex3 import CardFactory, GameStrategy
+from ex1 import Deck
+from ex0 import Card
 
 
 class GameEngine():
@@ -18,7 +20,37 @@ class GameEngine():
         self.strategy: GameStrategy = strategy
 
     def simulate_turn(self) -> dict:
-        pass
+        if not (getattr(self, "factory", False)
+                and getattr(self, "strategy", False)):
+            raise Exception("Please configure engine before simulating turn.")
+
+        deck_size: int = 10
+        deck: Deck = self.factory.create_themed_deck(deck_size).get("deck")
+
+        self.cards_created += deck_size
+
+        deck.shuffle()
+
+        hand: list[Card] = []
+
+        for _ in range(5):
+            hand.append(deck.draw_card())
+
+        hand_str: list[str] = []
+
+        for card in hand:
+            hand_str.append(f"{card.name} ({card.cost})")
+
+        print(f"Simulating {self.strategy.get_strategy_name()} turn...")
+        print(f"Hand: {hand_str}")
+
+        actions: dict[str, int | list[str]] =\
+            self.strategy.execute_turn(hand, [])
+
+        self.turns_simulated += 1
+        self.total_damage += actions.get("damage_dealt")
+
+        return actions
 
     def get_engine_status(self) -> dict:
         engine_status: dict[str, int | str] = {}
