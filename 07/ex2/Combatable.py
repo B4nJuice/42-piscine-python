@@ -8,7 +8,7 @@ class Combatable(ABC):
         pass
 
     @abstractmethod
-    def defend(self, incomming_damage: int) -> dict:
+    def defend(self, incoming_damage: int) -> dict:
         pass
 
     @abstractmethod
