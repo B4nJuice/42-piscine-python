@@ -236,4 +236,7 @@ def data_stream() -> None:
 
 
 if __name__ == "__main__":
-    data_stream()
+    try:
+        data_stream()
+    except Exception:
+        pass

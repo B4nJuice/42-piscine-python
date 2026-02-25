@@ -146,4 +146,7 @@ def stream_processor() -> None:
 
 
 if __name__ == "__main__":
-    stream_processor()
+    try:
+        stream_processor()
+    except Exception:
+        pass
