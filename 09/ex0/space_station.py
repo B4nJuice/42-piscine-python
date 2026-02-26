@@ -17,12 +17,14 @@ class SpaceStation(BaseModel):
 
         status = 'Operational' if self.is_operational else 'Down'
 
-        infos: str = [f"ID: {self.station_id}",
-                      f"Name: {self.name}",
-                      f"Crew: {self.crew_size} people",
-                      f"Power: {self.power_level*100:.1f}%",
-                      f"Oxygen: {self.oxygen_level*100:.1f}%",
-                      f"Status: {status}"]
+        infos: list[str] = [
+                f"ID: {self.station_id}",
+                f"Name: {self.name}",
+                f"Crew: {self.crew_size} people",
+                f"Power: {self.power_level*100:.1f}%",
+                f"Oxygen: {self.oxygen_level*100:.1f}%",
+                f"Status: {status}"
+            ]
 
         if self.notes:
             infos.append(f"Notes: {self.notes}")
@@ -71,7 +73,8 @@ def main() -> None:
         print(invalid_station)
     except ValidationError as e:
         print("Expected validation error:")
-        print(e)
+        for error in e.errors():
+            print(f"- {error.get('msg')}")
 
 
 if __name__ == "__main__":
