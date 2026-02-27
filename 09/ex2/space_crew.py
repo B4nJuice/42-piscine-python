@@ -1,6 +1,6 @@
 from enum import Enum
 from datetime import datetime
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, Field, model_validator, ValidationError
 
 
 class Rank(Enum):
@@ -123,7 +123,35 @@ def main() -> None:
         budget_millions=2500
     )
 
+    print("Space Mission Crew Validation")
+    print("=========================================")
+    print("Valid mission created:")
+
     print(mars_mission)
+
+    print()
+
+    print("=========================================")
+
+    try:
+        invalid_crew: list[CrewMember] = [john, alice]
+
+        invalid_mission: SpaceMission = SpaceMission(
+            mission_id="M_INVALID",
+            mission_name="INVALID Colony Establishment",
+            destination="Mars",
+            launch_date=datetime.now(),
+            duration_day=900,
+            crew=invalid_crew,
+            budget_millions=2500
+        )
+
+        print(invalid_mission)
+
+    except (ValidationError, ValueError) as e:
+        print("Expected validation error:")
+        for error in e.errors():
+            print(f"- {error.get('msg')}")
 
 
 if __name__ == "__main__":
