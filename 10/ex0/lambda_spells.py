@@ -20,7 +20,7 @@ def mage_stats(mages: list[dict]) -> dict:
             ).get("power")
 
     min_power: int = dict(
-                max(mages, key=lambda mage: mage.get("power", float("-inf")))
+                min(mages, key=lambda mage: mage.get("power", float("-inf")))
             ).get("power")
 
     total_power: int = sum(mage.get("power", 0) for mage in mages)
@@ -35,16 +35,48 @@ def mage_stats(mages: list[dict]) -> dict:
 
 
 if __name__ == "__main__":
-    a1 = {"power": 10, "name": "name"}
-    a2 = {"power": 14, "name": "tets1"}
-    a3 = {"power": -10, "name": "test"}
-    a4 = {"power": 101, "name": "ahah"}
-    a5 = {"name": "okok"}
+    artifacts: list[dict[str, str | int]] = [
+        {
+            "name": "Fire Staff",
+            "power": 92
+        },
+        {
+            "name": "Crystal orb",
+            "power": 80
+        },
+        {
+            "name": "Magic Shield",
+            "power": 85
+        }
+    ]
 
-    l = [a1, a2, a3, a4, a5]
-    l2 = ["test", "*", "", "okok"]
+    spells: list[str] = ["fireball", "heal", "shield"]
 
-    print(artifact_sorter(l))
-    print(power_filter(l, 2))
-    print(spell_transformer(l2))
-    print(mage_stats(l))
+    print("Testing artifact sorter...")
+
+    sorted_artifacts: list[dict[str, str | int]] = artifact_sorter(artifacts)
+
+    for i, artifact in enumerate(sorted_artifacts):
+        print(f"{i+1} {artifact.get('name')} ({artifact.get('power')} power)")
+
+    print()
+
+    print("Filtering artifacts with power > 80...")
+
+    filter_artifacts: list[dict[str, str | int]] = power_filter(artifacts, 81)
+
+    for artifact in filter_artifacts:
+        print(f"{artifact.get('name')} ({artifact.get('power')} power)")
+
+    print()
+
+    print("Testing spell transformer...")
+    print(" ".join(spell_transformer(spells)))
+
+    print()
+
+    print("Getting mage statistics...")
+    mage_stats: dict[str, int] = mage_stats(artifacts)
+    print(f"Max power :{mage_stats.get('max_power')}")
+    print(f"Min power :{mage_stats.get('min_power')}")
+    print(f"Avg power :{mage_stats.get('avg_power')}")
