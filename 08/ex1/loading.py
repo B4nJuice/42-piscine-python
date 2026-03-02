@@ -98,6 +98,13 @@ def main() -> None:
         print("\"poetry run python loading.py\"")
         return
 
+    print("Pip and Poetry differencies.")
+
+    print("pip installs Python packages from PyPI\
+ and usually works with a requirements.txt file.")
+    print("Poetry manages the whole project: dependencies,\
+ virtual environments, and version locking using pyproject.toml")
+
     generate_matrix_analysis()
 
 
