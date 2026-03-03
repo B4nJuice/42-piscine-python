@@ -1,3 +1,6 @@
+from typing import Union
+
+
 def spell_combiner(spell1: callable, spell2: callable) -> callable:
     return lambda: (spell1(), spell2())
 
@@ -6,7 +9,10 @@ def power_amplifier(base_spell: callable, multiplier: int) -> callable:
     return lambda: base_spell() * multiplier
 
 
-def conditional_caster(condition: bool, spell: callable) -> callable:
+def conditional_caster(
+            condition: bool,
+            spell: callable
+        ) -> Union[callable, str]:
     if condition():
         return lambda: spell()
     return "Spell fizzled"
