@@ -92,7 +92,6 @@ You can enhance this repository by:
 ## 📜 License
 
 This project is open for educational purposes unless otherwise specified.
-(Add a license such as MIT if you wish to make it official.)
 
 ---
 
