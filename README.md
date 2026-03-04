@@ -21,19 +21,19 @@ The Python Piscine aims to:
 
 Each folder corresponds to a module or exercise:
 
-/
-├── 00/
-├── 01/
-├── 02/
-├── 03/
-├── 04/
-├── 05/
-├── 06/
-├── 07/
-├── 08/
-├── 09/
-├── 10/
-├── .gitignore
+/\
+├── 00/\
+├── 01/\
+├── 02/\
+├── 03/\
+├── 04/\
+├── 05/\
+├── 06/\
+├── 07/\
+├── 08/\
+├── 09/\
+├── 10/\
+├── .gitignore\
 └── README.md
 
 The numbered directories contain the source code and exercises for each stage of the Piscine.
