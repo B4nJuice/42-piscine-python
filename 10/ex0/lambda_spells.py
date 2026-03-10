@@ -35,48 +35,55 @@ def mage_stats(mages: list[dict]) -> dict:
 
 
 if __name__ == "__main__":
-    artifacts: list[dict[str, str | int]] = [
-        {
-            "name": "Fire Staff",
-            "power": 92
-        },
-        {
-            "name": "Crystal orb",
-            "power": 80
-        },
-        {
-            "name": "Magic Shield",
-            "power": 85
-        }
-    ]
+    try:
+        artifacts: list[dict[str, str | int]] = [
+            {
+                "name": "Fire Staff",
+                "power": 92
+            },
+            {
+                "name": "Crystal orb",
+                "power": 80
+            },
+            {
+                "name": "Magic Shield",
+                "power": 85
+            }
+        ]
 
-    spells: list[str] = ["fireball", "heal", "shield"]
+        spells: list[str] = ["fireball", "heal", "shield"]
 
-    print("Testing artifact sorter...")
+        print("Testing artifact sorter...")
 
-    sorted_artifacts: list[dict[str, str | int]] = artifact_sorter(artifacts)
+        sorted_artifacts: list[dict[str, str | int]] = (
+            artifact_sorter(artifacts))
 
-    for i, artifact in enumerate(sorted_artifacts):
-        print(f"{i+1} {artifact.get('name')} ({artifact.get('power')} power)")
+        for i, artifact in enumerate(sorted_artifacts):
+            print(
+                f"{i+1} {artifact.get('name')} ({artifact.get('power')} power)"
+                )
 
-    print()
+        print()
 
-    print("Filtering artifacts with power > 80...")
+        print("Filtering artifacts with power > 80...")
 
-    filter_artifacts: list[dict[str, str | int]] = power_filter(artifacts, 81)
+        filter_artifacts: list[dict[str, str | int]] = (
+            power_filter(artifacts, 81))
 
-    for artifact in filter_artifacts:
-        print(f"{artifact.get('name')} ({artifact.get('power')} power)")
+        for artifact in filter_artifacts:
+            print(f"{artifact.get('name')} ({artifact.get('power')} power)")
 
-    print()
+        print()
 
-    print("Testing spell transformer...")
-    print(" ".join(spell_transformer(spells)))
+        print("Testing spell transformer...")
+        print(" ".join(spell_transformer(spells)))
 
-    print()
+        print()
 
-    print("Getting mage statistics...")
-    mage_stats: dict[str, int] = mage_stats(artifacts)
-    print(f"Max power :{mage_stats.get('max_power')}")
-    print(f"Min power :{mage_stats.get('min_power')}")
-    print(f"Avg power :{mage_stats.get('avg_power')}")
+        print("Getting mage statistics...")
+        mage_stats: dict[str, int] = mage_stats(artifacts)
+        print(f"Max power :{mage_stats.get('max_power')}")
+        print(f"Min power :{mage_stats.get('min_power')}")
+        print(f"Avg power :{mage_stats.get('avg_power')}")
+    except Exception as e:
+        print(e)
