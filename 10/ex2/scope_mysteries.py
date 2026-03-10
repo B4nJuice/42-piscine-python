@@ -66,3 +66,11 @@ if __name__ == "__main__":
     print("Testing enchantment factory...")
     print(f"Enchanting sword: {flaming_enchant('Sword')}")
     print(f"Enchanting bow: {flaming_enchant('Bow')}")
+
+    print()
+
+    print("Testing memory vault...")
+    vault: dict[str, callable] = memory_vault()
+    vault['store']('key1', 'value1')
+    print(f"Recalling key1: {vault['recall']('key1')}")
+    print(f"Recalling key2: {vault['recall']('key2')}")
