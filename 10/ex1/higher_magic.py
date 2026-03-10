@@ -1,25 +1,37 @@
-from typing import Union
+from typing import Any, Callable, Union
 
 
-def spell_combiner(spell1: callable, spell2: callable) -> callable:
-    return lambda: (spell1(), spell2())
+def spell_combiner(spell1: Callable, spell2: Callable) -> Callable:
+    def combined(*args: Any, **kwds: Any) -> tuple[Any, Any]:
+        return spell1(*args, **kwds), spell2(*args, **kwds)
+
+    return combined
 
 
-def power_amplifier(base_spell: callable, multiplier: int) -> callable:
-    return lambda: base_spell() * multiplier
+def power_amplifier(base_spell: Callable, multiplier: int) -> Callable:
+    def amplified(*args: Any, **kwds: Any) -> Any:
+        return base_spell(*args, **kwds) * multiplier
+
+    return amplified
 
 
 def conditional_caster(
-            condition: bool,
-            spell: callable
-        ) -> Union[callable, str]:
+            condition: Callable,
+            spell: Callable
+        ) -> Union[Callable, str]:
     if condition():
-        return lambda: spell()
+        def casted(*args: Any, **kwds: Any) -> Any:
+            return spell(*args, **kwds)
+
+        return casted
     return "Spell fizzled"
 
 
-def spell_sequence(spells: list[callable]) -> callable:
-    return lambda: [spell() for spell in spells]
+def spell_sequence(spells: list[Callable]) -> Callable:
+    def sequence(*args: Any, **kwds: Any) -> list[Any]:
+        return [spell(*args, **kwds) for spell in spells]
+
+    return sequence
 
 
 def fireball() -> int:
