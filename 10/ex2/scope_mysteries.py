@@ -22,7 +22,6 @@ def spell_accumulator(initial_power: int) -> callable:
 def enchantment_factory(enchantment_type: str) -> callable:
 
     def enchant(item_name: str) -> str:
-        nonlocal enchantment_type
 
         return f"{enchantment_type} {item_name}"
 
